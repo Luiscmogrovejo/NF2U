@@ -45,10 +45,7 @@ contract MyToken is
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
-        chainToken = ISETHCustom(0x5943F705aBb6834Cad767e6E4bB258Bc48D9C947);
-        chainToken = ISuperfluidToken(
-            0xc94dd466416A7dFE166aB2cF916D3875C049EBB7
-        );
+
         cost = _cost;
         vault = _vault;
         // Initialize CFA Library

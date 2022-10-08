@@ -15,7 +15,6 @@
     "@superfluid-finance/ethereum-contracts": "^1.4.1",
     "dotenv": "^16.0.3",
     "hardhat": "^2.11.2"
-
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.1.1",
