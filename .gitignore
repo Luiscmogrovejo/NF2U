@@ -7,3 +7,15 @@ typechain
 #Hardhat files
 cache
 artifacts
+
+# NodeJS
+build
+
+# Editor
+.vscode
+
+# System
+.DS_Store
+
+# Never commit keys to Git!
+keys
