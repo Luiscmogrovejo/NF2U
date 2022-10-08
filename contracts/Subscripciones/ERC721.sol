@@ -43,7 +43,7 @@ contract MyToken is
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
-        chainToken = ;
+        chainToken = '';
         usdToken = 0xde637d4c445ca2aae8f782ffac8d2971b93a4998;
         cost = _cost;
         vault = _vault;

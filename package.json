@@ -1,5 +1,12 @@
 {
   "name": "hardhat-project",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "clean": "npx hardhat clean",
+    "deploy:hh": "npx hardhat run --network hardhat scripts/deploy.ts",
+    "deploy:scrollTestnet": "npx hardhat run --network scrollTestnet scripts/deploy.ts"
+  },
   "dependencies": {
     "@chainlink/contracts": "^0.5.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
@@ -8,5 +15,9 @@
     "@superfluid-finance/ethereum-contracts": "^1.4.1",
     "dotenv": "^16.0.3",
     "hardhat": "^2.11.2"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.1.1",
+    "ethereum-waffle": "^3.4.4"
   }
 }
