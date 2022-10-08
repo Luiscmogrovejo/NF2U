@@ -17,17 +17,22 @@ contract MyToken is
     Ownable,
     ERC721Burnable
 {
-        /// @notice CFA Library.
+    /// @notice CFA Library.
     using CFAv1Library for CFAv1Library.InitData;
     CFAv1Library.InitData public cfaV1;
 
+    uint256 price;
+    address vault;
+
     constructor(
         ISuperfluid host,
+        uint256 _price,
+        address _vault,
         string memory name,
-        string memory symbol,
-        string memory tokenURI,
-        uint256 tokenID
+        string memory symbol
     ) ERC721(name, symbol) {
+        price = _price;
+        vault = _vault;
         // Initialize CFA Library
         cfaV1 = CFAv1Library.InitData(
             host,
@@ -51,8 +56,9 @@ contract MyToken is
         _unpause();
     }
 
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
+    function safeMint(uint256 tokenId) public {
+        cfaV1.createFlow(vault, token, price);
+        _safeMint(msg.sender, tokenId);
     }
 
     function _beforeTokenTransfer(
