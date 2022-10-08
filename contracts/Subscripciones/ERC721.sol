@@ -11,6 +11,8 @@ import {IConstantFlowAgreementV1} from "@superfluid-finance/ethereum-contracts/c
 import {CFAv1Library, ISuperfluid, ISuperfluidToken} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/tokens/SETH.sol";
 
 contract MyToken is
     ERC721,
@@ -43,8 +45,7 @@ contract MyToken is
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
-        chainToken = ;
-        usdToken = 0xde637d4c445ca2aae8f782ffac8d2971b93a4998;
+
         cost = _cost;
         vault = _vault;
         // Initialize CFA Library
@@ -70,22 +71,26 @@ contract MyToken is
         _unpause();
     }
 
-    function safeMint(string _coin) public {
-        uint ethPrice = getLatestPrice();
+    function safeMint(string memory _coin, uint duration) public {
+        uint secs = duration*24*60*60;
+        uint ethPrice = uint(getLatestPrice());
         uint conversion = cost/ethPrice;
-        if (_coin == "ETH" ) {
+        uint flowrate = price/secs;
+        string memory eth = "ETH";
+        string memory usd = "USD";
+        if (keccak256(abi.encodePacked((_coin))) == keccak256(abi.encodePacked((eth)))) {
+        uint upgraded = upgradeByETH(cost);
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        cfaV1.createFlow(vault, chainToken, cost);
+        cfaV1.createFlowByOperator(chainToken, msg.sender, vault, flowRate, new bytes(0));
         _safeMint(msg.sender, tokenId);
-        } else if (_coin == "USD" ) {
+        } else if (keccak256(abi.encodePacked((_coin))) == keccak256(abi.encodePacked((usd)))) {
+        uint upgraded = upgrade(cost);
         uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        cfaV1.createFlow(vault, usdToken, cost);
+        _tokenIdCounter.increment(); 
+        cfaV1.createFlowByOperator(usdToken, msg.sender, vault, flowRate, new bytes(0));
         _safeMint(msg.sender, tokenId);
-        } else {
-
-        }
+        } 
 
 
     }
