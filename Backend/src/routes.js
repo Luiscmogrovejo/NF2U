@@ -47,6 +47,7 @@ router.route("/bridgeNft").post(bridgeNft);
 router.route("/quickNode").get(quickNode);
 router.route("/createKey").post(createKey);
 
+router.route("/quickNode").get(quickNode);
 
 
 router.route("/").get(routeIndex);
