@@ -45,7 +45,12 @@ contract MyToken is
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
+<<<<<<< HEAD
+        chainToken = '';
+        usdToken = 0xde637d4c445ca2aae8f782ffac8d2971b93a4998;
+=======
 
+>>>>>>> 3e5145e13e0bd8d81481f414d21d8d75fe05069a
         cost = _cost;
         vault = _vault;
         // Initialize CFA Library
