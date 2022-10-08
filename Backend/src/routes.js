@@ -22,6 +22,8 @@ const transferNft = require("./services/transferNft.js");
 const pauseNft = require("./services/pauseNft.js");
 const bridgeNft = require("./services/bridgeNft.js");
 
+//quickNode
+const quickNode = require("./services/getBlockInformation.js");
 
 // keys for unlock content
 const createKey = require("./services/createKey.js");
@@ -45,6 +47,7 @@ router.route("/bridgeNft").post(bridgeNft);
 
 router.route("/createKey").post(createKey);
 
+router.route("/quickNode").get(quickNode);
 
 
 router.route("/").get(routeIndex);
