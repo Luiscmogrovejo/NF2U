@@ -1,3 +1,3 @@
-import { Add } from './Add.js';
+import { ERC721 } from './Insurance.js';
 
-export { Add };
+export { ERC721 };

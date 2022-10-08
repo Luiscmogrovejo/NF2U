@@ -1,4 +1,4 @@
-import { Add } from './Add';
+import { ERC721 } from './Insurance.js';
 import {
   isReady,
   shutdown,
@@ -23,20 +23,20 @@ function createLocalBlockchain() {
 }
 
 async function localDeploy(
-  zkAppInstance: Add,
+  zkAppInstance: ERC721,
   zkAppPrivatekey: PrivateKey,
   deployerAccount: PrivateKey
 ) {
   const txn = await Mina.transaction(deployerAccount, () => {
     AccountUpdate.fundNewAccount(deployerAccount);
     zkAppInstance.deploy({ zkappKey: zkAppPrivatekey });
-    zkAppInstance.init();
+
     zkAppInstance.sign(zkAppPrivatekey);
   });
   await txn.send().wait();
 }
 
-describe('Add', () => {
+describe('ERC721', () => {
   let deployerAccount: PrivateKey,
     zkAppAddress: PublicKey,
     zkAppPrivateKey: PrivateKey;
@@ -56,7 +56,7 @@ describe('Add', () => {
   });
 
   it('generates and deploys the `Add` smart contract', async () => {
-    const zkAppInstance = new Add(zkAppAddress);
+    const zkAppInstance = new ERC721(zkAppAddress);
     await localDeploy(zkAppInstance, zkAppPrivateKey, deployerAccount);
     const num = zkAppInstance.num.get();
     expect(num).toEqual(Field.one);
