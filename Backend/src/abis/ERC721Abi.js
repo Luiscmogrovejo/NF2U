@@ -1,1 +1,1 @@
-export const ERC721 = []
+export const ERC721 = [];
