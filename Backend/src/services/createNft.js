@@ -6,7 +6,7 @@ require("dotenv").config();
 const axios = require("axios").default;
 
 
-const createNft = async (collectionId) => {
+const createNft = async (collectionId, image) => {
     const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
     const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
 
