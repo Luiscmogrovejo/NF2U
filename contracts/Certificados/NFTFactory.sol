@@ -3,13 +3,6 @@
 pragma solidity ^0.8.16;
 
 import "./ERC721.sol";
-import { 
-    IConstantFlowAgreementV1 
-} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
-
-import {
-    CFAv1Library, ISuperfluid
-} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 
 contract NF2U {
 
