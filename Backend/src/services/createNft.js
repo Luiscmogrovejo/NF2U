@@ -56,7 +56,7 @@ const createNft = async (collectionId, image) => {
     const added2 = await client.add(data);
     
     try {
-      const upgrade = await contract.methods.upgradeStage(id, added2.path).send({ from: account });
+      const upgrade = await contract.methods.safeMint().send({ from: account });
       return true;
     } catch(error){
       return false;

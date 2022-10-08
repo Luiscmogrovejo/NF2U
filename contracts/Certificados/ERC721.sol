@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.14;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -25,18 +25,12 @@ contract MyToken is
 
     Counters.Counter private _tokenIdCounter;
 
-    /// @notice CFA Library.
-    using CFAv1Library for CFAv1Library.InitData;
-    CFAv1Library.InitData public cfaV1;
-    ISuperfluidToken chainToken;
-    ISuperfluidToken usdToken;
     uint256 cost;
     address vault;
 
     AggregatorV3Interface internal priceFeed;
 
     constructor(
-        ISuperfluid host,
         uint256 _cost,
         address _vault,
         string memory name,
@@ -59,7 +53,9 @@ contract MyToken is
     }
 
     function safeMint(uint _times) public onlyOwner {
-        for (i=0; i<_times; i++) {
+        for (uint i=0; i<_times; i++) {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
             _safeMint(msg.sender, tokenId);
         }
 

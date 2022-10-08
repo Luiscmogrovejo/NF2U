@@ -1,15 +1,10 @@
 //SPDX-License-Identifier: Unlicense
 
-pragma solidity ^0.8.14;
+pragma solidity ^0.8.16;
 
 interface IStrainFactory {
 
-
-    function pause() external;
-
-    function unpause() external;
-
-    function safeMint(address to, uint256 tokenId) external;
+    function safeMint(uint _times) external;
 
     // The following functions are overrides required by Solidity.
 

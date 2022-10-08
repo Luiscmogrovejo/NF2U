@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.14;
+pragma solidity ^0.8.16;
 
 import "./ERC721.sol";
 import { 
@@ -12,22 +12,17 @@ import {
 } from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 
 contract NF2U {
-    uint256 public tokenCounter;
-
 
     constructor() {
-        tokenCounter = 1;
+
     }
 
     function _mintNewNFT(
-        uint price,
-        address vault,
+        uint256 _cost,
+        address _vault,
         string memory name,
-        string memory symbol,
-        string memory tokenUri
+        string memory symbol
     ) public {
-        uint256 newTokenId = tokenCounter;
-        new MyToken(price, vault, name, symbol, tokenUri, newTokenId);
-        tokenCounter += 1;
+        new MyToken(_cost, _vault, name, symbol);
     }
 }
