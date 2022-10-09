@@ -3,7 +3,7 @@ const provider_list = {
     "https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/",
   420: "https://muddy-methodical-shard.optimism-goerli.discover.quiknode.pro/1b6f71eb1516d728ed685e3feb911a318aa8837f/",
   534351: "https://prealpha.scroll.io/l1/",
-  5: "https://distinguished-light-breeze.ethereum-goerli.discover.quiknode.pro/39ed6ebac3cfbed9018e3298e383ef03820f023e/",
+  5: "https://goerli.ethereum.coinbasecloud.net",
 };
 
 const contracts_addresses = {
