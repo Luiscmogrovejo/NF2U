@@ -53,9 +53,6 @@ const createCollection = async (req, res) => {
   };
   const receipt = await web3.eth.sendTransaction(txData);
   console.log(`Tx hash: ${receipt.transactionHash}`);
-  const newCollection = await contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address).send();
-  console.log(newCollection);
-  return newCollection;
 };
 
 module.exports = createCollection;
