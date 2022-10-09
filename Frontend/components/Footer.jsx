@@ -53,6 +53,7 @@ export default function LargeWithLogoLeft() {
                         <Link href={'https://scroll.io/'}>Scroll</Link>
                         <Link href={'https://polygon.technology/'}>Polygon</Link>
                         <Link href={'https://goerli.net/'}>Goüerli</Link>
+                        <Link href={'https://www.pokt.network/'}>Pokt</Link>
                     </Stack>
                     <Stack align={'flex-start'}>
                         <ListHeader><Text as='b'>Sponsor Tools</Text></ListHeader>
@@ -60,6 +61,7 @@ export default function LargeWithLogoLeft() {
                         <Link href={'https://xmtp.com/'}>XMTP</Link>
                         <Link href={'https://chain.link/'}>Chainlink</Link>
                         <Link href={'https://www.superfluid.finance/'}>Superfluid</Link>
+                        <Link href={'https://www.openzeppelin.com/'}>Oppenzepelin</Link>
                     </Stack>
                 </SimpleGrid>
             </Container>
