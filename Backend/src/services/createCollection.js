@@ -26,20 +26,31 @@ const createCollection = async (req, res) => {
     .select()
     .eq("email", email);
 
-  console.log("Data ", data);
   if (error) {
     return res.statusCode(500);
   }
-  const { wallet, privateKey } = data;
+  //const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, Factory, contractAddress);
   const web3 = new Web3();
   const account = web3.eth.accounts.privateKeyToAccount(privateKey);
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const newCollection = await contract.methods._mintNewNFT().send();
-  console.log(newCollection);
-  return newCollection;
+  const tx1 = contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address);
+  const [gasPrice, gasCost1] = await Promise.all([
+    web3.eth.getGasPrice(),
+    tx1.estimateGas({ from: admin })
+  ])
+  const dataTx = tx1.encodeABI();
+  const txData = {
+    from: admin,
+    to: flashloan.options.address,
+    data: dataTx,
+    gas: gasCost1,
+    gasPrice
+  };
+  const receipt = await web3.eth.sendTransaction(txData);
+  console.log(`Tx hash: ${receipt.transactionHash}`);
 };
 
 module.exports = createCollection;
