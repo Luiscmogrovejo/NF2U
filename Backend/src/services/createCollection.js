@@ -32,11 +32,26 @@ const createCollection = async (req, res) => {
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
   const web3 = new Web3();
-  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-  web3.eth.accounts.wallet.add(account);
+  const account = await web3.eth.accounts.privateKeyToAccount(privateKey);
+  await web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const newCollection = await contract.methods._mintNewNFT().send();
-  console.log(newCollection);
+  const [tx1] = Object.keys(DIRECTION).map(direction => contract.methods._mintNewNFT(10, account.address, "Test", "TST",account.address));
+  const dataTx = tx1.encodeABI();
+  const [gasPrice, gasCost1] = await Promise.all([
+    web3.eth.getGasPrice(),
+    tx1.estimateGas({ from: admin }),
+    tx2.estimateGas({ from: admin })
+  ])
+  const txData = {
+    from: admin,
+    to: flashloan.options.address,
+    data: dataTx,
+    gas: gasCost1,
+    gasPrice
+  };
+  const receipt = await web3.eth.sendTransaction(txData);
+  console.log(`Tx hash: ${receipt.transactionHash}`);
+
   return newCollection;
 };
 
