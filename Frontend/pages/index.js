@@ -26,7 +26,7 @@ export default function CallToActionWithAnnotation() {
         />
       </Head>
 
-      <Container maxW={'3xl'}>
+      <Container maxW={'3xl'} maxHeight="100vh">
         <Particules/>
         <img src={folder + "logo_nf2u.png"} alt="nf2u" width="20%" className={Styles.first_logo} />
         <Stack
@@ -87,6 +87,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
+      
     </>
   );
 }
