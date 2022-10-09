@@ -34,6 +34,10 @@ module.exports = {
       url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
+    goerliop: {
+      url: `https://goerli.optimism.io/`,
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
+    },
     ropsten: {
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
@@ -59,9 +63,8 @@ module.exports = {
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     scrollTestnet: {
-      url: process.env.SCROLL_TESTNET_URL || "",
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      url: "https://prealpha.scroll.io/l2",
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     mumbai: {
       url: "https://rpc-mumbai.maticvigil.com",

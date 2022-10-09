@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 
 contract MyToken is
@@ -15,7 +16,8 @@ contract MyToken is
     ERC721Enumerable,
     Pausable,
     Ownable,
-    ERC721Burnable
+    ERC721Burnable,
+    ERC721URIStorage
 {
     using Counters for Counters.Counter;
 
@@ -48,12 +50,10 @@ contract MyToken is
         _unpause();
     }
 
-    function safeMint(uint _times) public onlyOwner {
-        for (uint i=0; i<_times; i++) {
+    function safeMint() public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
             _safeMint(msg.sender, tokenId);
-        }
 
     }
 
@@ -85,5 +85,18 @@ contract MyToken is
             /*uint80 answeredInRound*/
         ) = priceFeed.latestRoundData();
         return price;
+    }
+
+        function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
     }
 }

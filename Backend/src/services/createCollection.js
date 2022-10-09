@@ -4,11 +4,7 @@ const axios = require("axios").default;
 
 const createCollection = async (req, res) => {
   const collectionId = "0x8638BF6B932764Db8C81ECBAA92f36BcAf369cDc";
-    const web3 = new Web3(window.ethereum);
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const account = accounts[0];
+    const web3 = new Web3("https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/");
     const contract = new web3.eth.Contract([
       {
         "inputs": [
@@ -44,7 +40,7 @@ const createCollection = async (req, res) => {
         "type": "constructor"
       }
     ], collectionId);
-    const newCollection = await contract.methods.safeMint().send()
+    const newCollection = await contract.methods._mintNewNFT().send()
     return newCollection;
 
 }
