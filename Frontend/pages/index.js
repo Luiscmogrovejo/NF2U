@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Particules from '../components/Particules';
+
 import {
   Box,
   Heading,
@@ -24,23 +26,30 @@ export default function CallToActionWithAnnotation() {
         />
       </Head>
 
-      <Container maxW={'3xl'}>
-        <img src={folder + "logo_nf2u.png"} alt="nf2u" width="20%" className={Styles.first_logo} />
+      <Container maxW={'3xl'} maxHeight="100vh">
+        <Particules />
+        <Image
+          src={"/image/logo_nf2u.png"}
+          alt="nf2u"
+          width={200}
+          height={75}
+          className={Styles.first_logo}
+        />
         <Stack
           as={Box}
           textAlign={'center'}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}>
+          spacing={{ base: 4, md: 7 }}
+          py={{ base: 15, md: 31 }}>
           <Heading
             fontWeight={600}
             fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}>
-            <Text as='b'>NF2U is a bundle of developer tools</Text> <br />
-            <Text fontSize='45px' color={'red.400'}>
+            <Text fontSize='4xl'as='b'>NF2U is a bundle of developer tools</Text> <br />
+            <Text fontSize='3xl' color={'#CC3331'}>
               Helps non specialized builders create and manage simplified NFT’s
             </Text>
           </Heading>
-          <Text color={'gray.500'}>
+          <Text fontSize='1xl' color={'gray.500'}>
             Using familiar infrastructure like API calls, via a simple and open-source SDK.
           </Text>
           <Stack
@@ -50,12 +59,12 @@ export default function CallToActionWithAnnotation() {
             alignSelf={'center'}
             position={'relative'}>
             <Button
-              colorScheme={'green'}
-              bg={'red.400'}
+              colorScheme={'red'}
+              bg={'#CC3331'}
               rounded={'full'}
               px={6}
               _hover={{
-                bg: 'green.500',
+                bg: 'red.500',
               }}>
               Get Started
             </Button>
@@ -84,6 +93,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
+
     </>
   );
 }
