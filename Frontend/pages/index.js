@@ -41,7 +41,7 @@ export default function CallToActionWithAnnotation() {
             </Text>
           </Heading>
           <Text color={'gray.500'}>
-            Using familiar infrastructure like API calls, via a simple and open-source SDK.
+            Using familiar infrastructure like API calls, via a simple and open-source API.
           </Text>
           <Stack
             direction={'column'}
