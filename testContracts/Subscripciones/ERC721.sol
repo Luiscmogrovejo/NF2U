@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.14;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -11,6 +11,8 @@ import {IConstantFlowAgreementV1} from "@superfluid-finance/ethereum-contracts/c
 import {CFAv1Library, ISuperfluid, ISuperfluidToken} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/tokens/SETH.sol";
 
 contract MyToken is
     ERC721,
@@ -26,7 +28,7 @@ contract MyToken is
     /// @notice CFA Library.
     using CFAv1Library for CFAv1Library.InitData;
     CFAv1Library.InitData public cfaV1;
-    ISuperfluidToken chainToken;
+    ISETHCustom chainToken;
     ISuperfluidToken usdToken;
     uint256 cost;
     address vault;
@@ -43,8 +45,7 @@ contract MyToken is
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
-        chainToken = ;
-        usdToken = 0xde637d4c445ca2aae8f782ffac8d2971b93a4998;
+
         cost = _cost;
         vault = _vault;
         // Initialize CFA Library
@@ -70,24 +71,45 @@ contract MyToken is
         _unpause();
     }
 
-    function safeMint(string _coin) public {
-        uint ethPrice = getLatestPrice();
-        uint conversion = cost/ethPrice;
-        if (_coin == "ETH" ) {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        cfaV1.createFlow(vault, chainToken, cost);
-        _safeMint(msg.sender, tokenId);
-        } else if (_coin == "USD" ) {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        cfaV1.createFlow(vault, usdToken, cost);
-        _safeMint(msg.sender, tokenId);
-        } else {
-
+    function safeMint(string memory _coin, uint256 duration) public {
+        uint256 secs = duration * 24 * 60 * 60;
+        uint256 ethPrice = uint256(getLatestPrice());
+        uint256 conversion = cost / ethPrice;
+        uint256 flowRate = cost / secs;
+        string memory eth = "ETH";
+        string memory usd = "USD";
+        if (
+            keccak256(abi.encodePacked((_coin))) ==
+            keccak256(abi.encodePacked((eth)))
+        ) {
+            chainToken.upgradeByETH(cost);
+            //            chainToken.transfer(msg.value);
+            uint256 tokenId = _tokenIdCounter.current();
+            _tokenIdCounter.increment();
+            cfaV1.createFlowByOperator(
+                chainToken,
+                msg.sender,
+                vault,
+                flowRate,
+                new bytes(0)
+            );
+            _safeMint(msg.sender, tokenId);
+        } else if (
+            keccak256(abi.encodePacked((_coin))) ==
+            keccak256(abi.encodePacked((usd)))
+        ) {
+            uint256 upgraded = usdToken.upgrade(cost);
+            uint256 tokenId = _tokenIdCounter.current();
+            _tokenIdCounter.increment();
+            cfaV1.createFlowByOperator(
+                usdToken,
+                msg.sender,
+                vault,
+                flowRate,
+                new bytes(0)
+            );
+            _safeMint(msg.sender, tokenId);
         }
-
-
     }
 
     function _beforeTokenTransfer(
@@ -109,14 +131,17 @@ contract MyToken is
         return super.supportsInterface(interfaceId);
     }
 
-        function getLatestPrice() public view returns (int) {
+    function getLatestPrice() public view returns (int256) {
         (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
+            ,
+            /*uint80 roundID*/
+            int256 price, /*uint startedAt*/
+            ,
+            ,
+
+        ) = /*uint timeStamp*/
             /*uint80 answeredInRound*/
-        ) = priceFeed.latestRoundData();
+            priceFeed.latestRoundData();
         return price;
     }
 }

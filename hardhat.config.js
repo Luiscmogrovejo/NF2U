@@ -15,7 +15,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.14",
+        version: "0.8.16",
         settings: {
           optimizer: {
             enabled: true,
@@ -34,30 +34,18 @@ module.exports = {
       url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
-    ropsten: {
-      url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    goerliop: {
+      url: `https://goerli.optimism.io/`,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    scrollTestnet: {
+      url: "https://prealpha.scroll.io/l1",
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
-    bsctest: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    fantom: {
-      url: "https://rpc.ftm.tools/",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    fantom_test: {
-      url: "https://rpc.testnet.fantom.network/",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
+    mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [process.env.PRIVATE_KEY]
+    }
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
