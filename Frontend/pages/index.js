@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Particules from '../components/Particules';
+import Footer from './../components/Footer';
 
 import {
   Box,
@@ -67,11 +68,11 @@ export default function CallToActionWithAnnotation() {
               _hover={{
                 bg: 'red.500',
               }}>
-              <Link href={'/demo'}>Start App</Link>
+              <Link href={'/demo'}>Online API</Link>
 
             </Button>
             <Button variant={'link'} colorScheme={'blue'} size={'lg'}>
-              Learn more
+              Documentation
             </Button>
             <Box>
               <Icon
@@ -95,7 +96,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
-
+      <Footer/>
     </>
   );
 }
