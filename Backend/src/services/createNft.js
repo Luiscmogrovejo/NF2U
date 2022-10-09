@@ -1,7 +1,7 @@
 const Web3 = require("web3");
 // import mergeImages from "merge-images";
 // const { create as ipfsHttpClient } = require("ipfs-http-client");
-const { ERC721 } = require("../abis/ERC721abi");
+const ERC721 = require("../abis/ERC721abi");
 require("dotenv").config();
 const axios = require("axios").default;
 
