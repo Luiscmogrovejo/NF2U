@@ -2,8 +2,10 @@ require("dotenv").config();
 const axios = require("axios");
 const Web3 = require("web3");
 const { provider_list, contracts_addresses } = require("../config/providers");
-const ERC721 = require("../abis/ERC721Abi.json");
+const Factory = require("../abis/FactoryAbi.json");
 const { getWeb3, getContract } = require("../config/web3");
+const supabase = require("@supabase/supabase-js");
+const { createClient } = supabase;
 
 const createCollection = async (req, res) => {
   const { chainId, email } = req.body;
@@ -30,18 +32,18 @@ const createCollection = async (req, res) => {
   }
   const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
-  const contract = getContract(provider, ERC721, contractAddress);
+  const contract = getContract(provider, Factory, contractAddress);
   const web3 = new Web3();
-  const account = await web3.eth.accounts.privateKeyToAccount(privateKey);
-  await web3.eth.accounts.wallet.add(account);
+  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+  web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const [tx1] = Object.keys(DIRECTION).map(direction => contract.methods._mintNewNFT(10, account.address, "Test", "TST",account.address));
-  const dataTx = tx1.encodeABI();
-  const [gasPrice, gasCost1] = await Promise.all([
+  const [tx1] = Object.keys(DIRECTION).map(direction => contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address));
+  const [gasPrice, gasCost1, gasCost2] = await Promise.all([
     web3.eth.getGasPrice(),
     tx1.estimateGas({ from: admin }),
     tx2.estimateGas({ from: admin })
   ])
+  const dataTx = tx1.encodeABI();
   const txData = {
     from: admin,
     to: flashloan.options.address,
@@ -51,7 +53,8 @@ const createCollection = async (req, res) => {
   };
   const receipt = await web3.eth.sendTransaction(txData);
   console.log(`Tx hash: ${receipt.transactionHash}`);
-
+  const newCollection = await contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address).send();
+  console.log(newCollection);
   return newCollection;
 };
 
