@@ -27,23 +27,29 @@ export default function CallToActionWithAnnotation() {
       </Head>
 
       <Container maxW={'3xl'} maxHeight="100vh">
-        <Particules/>
-        <img src={folder + "logo_nf2u.png"} alt="nf2u" width="20%" className={Styles.first_logo} />
+        <Particules />
+        <Image
+          src={"/image/logo_nf2u.png"}
+          alt="nf2u"
+          width={200}
+          height={75}
+          className={Styles.first_logo}
+        />
         <Stack
           as={Box}
           textAlign={'center'}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}>
+          spacing={{ base: 4, md: 7 }}
+          py={{ base: 15, md: 31 }}>
           <Heading
             fontWeight={600}
             fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}>
-            <Text as='b'>NF2U is a bundle of developer tools</Text> <br />
-            <Text fontSize='45px' color={'red.400'}>
+            <Text fontSize='4xl'as='b'>NF2U is a bundle of developer tools</Text> <br />
+            <Text fontSize='3xl' color={'#CC3331'}>
               Helps non specialized builders create and manage simplified NFT’s
             </Text>
           </Heading>
-          <Text color={'gray.500'}>
+          <Text fontSize='1xl' color={'gray.500'}>
             Using familiar infrastructure like API calls, via a simple and open-source SDK.
           </Text>
           <Stack
@@ -54,7 +60,7 @@ export default function CallToActionWithAnnotation() {
             position={'relative'}>
             <Button
               colorScheme={'red'}
-              bg={'red.400'}
+              bg={'#CC3331'}
               rounded={'full'}
               px={6}
               _hover={{
@@ -87,7 +93,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
-      
+
     </>
   );
 }
