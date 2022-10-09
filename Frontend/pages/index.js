@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import Particules from '../components/Particules';
 
 import {
@@ -26,7 +27,7 @@ export default function CallToActionWithAnnotation() {
         />
       </Head>
 
-      <Container maxW={'3xl'} maxHeight="100vh">
+      <Container maxW={'7xl'} maxHeight="100vh">
         <Particules />
         <Image
           src={"/image/logo_nf2u.png"}
@@ -38,18 +39,18 @@ export default function CallToActionWithAnnotation() {
         <Stack
           as={Box}
           textAlign={'center'}
-          spacing={{ base: 4, md: 7 }}
-          py={{ base: 15, md: 31 }}>
+          spacing={{ base: 8, md: 14 }}
+          py={{ base: 20, md: 36 }}>
           <Heading
             fontWeight={600}
             fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}>
-            <Text fontSize='4xl'as='b'>NF2U is a bundle of developer tools</Text> <br />
-            <Text fontSize='3xl' color={'#CC3331'}>
+            <Text fontSize='7xl' as='b'>NF2U is a bundle of developer tools</Text> <br />
+            <Text color={'#CC3331'}>
               Helps non specialized builders create and manage simplified NFT’s
             </Text>
           </Heading>
-          <Text fontSize='1xl' color={'gray.500'}>
+          <Text fontSize='3xl' color={'gray.500'}>
             Using familiar infrastructure like API calls, via a simple and open-source SDK.
           </Text>
           <Stack
@@ -66,9 +67,10 @@ export default function CallToActionWithAnnotation() {
               _hover={{
                 bg: 'red.500',
               }}>
-              Get Started
+              <Link href={'/demo'}>Start App</Link>
+
             </Button>
-            <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
+            <Button variant={'link'} colorScheme={'blue'} size={'lg'}>
               Learn more
             </Button>
             <Box>
