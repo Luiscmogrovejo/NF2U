@@ -1,11 +1,15 @@
 require("dotenv").config();
 const axios = require("axios");
 const { provider_list, contracts_addresses } = require("../config/providers");
+// const {ipfsClient} = require("ipfs-http-client");
 const ERC721 = require("../abis/ERC721Abi.json");
 const { getWeb3, getContract } = require("../config/web3");
+const supabase = require("@supabase/supabase-js");
+const { createClient } = supabase;
 
-const createNft = async (times, image, contractAddress, req, res) => {
-  const { chainId, email } = req.body;
+const createNft = async (req, res) => {
+  console.log("---------");
+  const { chainId, email, times, image, contractAddress } = req.body;
   if (!chainId) {
     return res.statusCode(500);
   }
@@ -30,27 +34,27 @@ const createNft = async (times, image, contractAddress, req, res) => {
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
   const account = provider.eth.accounts.privateKeyToAccount(privatekey);
-  web3.eth.accounts.wallet.add(account);
-  web3.eth.defaultAccount = account.address;
+  provider.eth.accounts.wallet.add(account);
+  provider.eth.defaultAccount = account.address;
 
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
   const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
 
-  const auth =
-    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const client = ipfsHttpClient({
-    host: "ipfs.infura.io",
-    port: 5001,
-    protocol: "https",
-    headers: {
-      authorization: auth,
-    },
-  });
+  // const auth =
+  //   "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+  // const client = ipfsClient.create({
+  //   host: "ipfs.infura.io",
+  //   port: 5001,
+  //   protocol: "https",
+  //   headers: {
+  //     authorization: auth,
+  //   },
+  // });
 
   for (i = 0; i < times; i++) {
     const tx1 = contract.methods.safeMint();
     const [gasPrice, gasCost1] = await Promise.all([
-      web3.eth.getGasPrice(),
+      provider.eth.getGasPrice(),
       tx1.estimateGas({ from: admin }),
     ]);
     const dataTx = tx1.encodeABI();
@@ -61,7 +65,7 @@ const createNft = async (times, image, contractAddress, req, res) => {
       gas: gasCost1,
       gasPrice,
     };
-    const receipt = await web3.eth.sendTransaction(txData);
+    const receipt = await provider.eth.sendTransaction(txData);
     console.log(`Tx hash: ${receipt.transactionHash}`);
     const addedImage = await client.add(image);
     const name = `Collection Name`;

@@ -40,7 +40,7 @@ router.route("/getCollection").post(getCollection);
 router.route("/createCollection").post(createCollection);
 
 router.route("/getNft").post(getNft);
-router.route("/createNft").post(createNft);
+router.route("/create-nft").post(createNft);
 router.route("/transferNft").post(transferNft);
 router.route("/pauseNft").post(pauseNft);
 router.route("/bridgeNft").post(bridgeNft);

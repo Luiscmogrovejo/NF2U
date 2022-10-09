@@ -30,9 +30,14 @@ const createWallet  = async (req, res) => {
         { email: req.body.email, wallet: account.address, privatekey:account.privateKey  }
     ]);
 
-   // console.log("--->>> ", respuesta);
-    //console.log(error);
-    console.log('terminado');
+    if(!error) {
+        return (
+            res.json({
+                status: "ok",
+                wallet: account.address
+            })
+        )
+    }
     
 }
 
