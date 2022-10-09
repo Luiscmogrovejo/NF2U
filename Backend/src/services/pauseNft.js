@@ -26,7 +26,7 @@ const pauseNft = async (req, res) => {
     .select()
     .eq("email", email);
 
-  console.log("Data ", data);
+  // console.log("Data ", data);
   if (error) {
     return res.statusCode(500);
   }

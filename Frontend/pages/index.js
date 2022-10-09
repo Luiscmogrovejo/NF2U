@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import Particules from '../components/Particules';
+
 import {
   Box,
   Heading,
@@ -24,8 +27,15 @@ export default function CallToActionWithAnnotation() {
         />
       </Head>
 
-      <Container maxW={'3xl'}>
-        <img src={folder + "logo_nf2u.png"} alt="nf2u" width="20%" className={Styles.first_logo} />
+      <Container maxW={'7xl'} maxHeight="100vh">
+        <Particules />
+        <Image
+          src={"/image/logo_nf2u.png"}
+          alt="nf2u"
+          width={200}
+          height={75}
+          className={Styles.first_logo}
+        />
         <Stack
           as={Box}
           textAlign={'center'}
@@ -35,12 +45,12 @@ export default function CallToActionWithAnnotation() {
             fontWeight={600}
             fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}>
-            <Text as='b'>NF2U is a bundle of developer tools</Text> <br />
-            <Text fontSize='45px' color={'red.400'}>
+            <Text fontSize='7xl' as='b'>NF2U is a bundle of developer tools</Text> <br />
+            <Text color={'#CC3331'}>
               Helps non specialized builders create and manage simplified NFT’s
             </Text>
           </Heading>
-          <Text color={'gray.500'}>
+          <Text fontSize='3xl' color={'gray.500'}>
             Using familiar infrastructure like API calls, via a simple and open-source API.
           </Text>
           <Stack
@@ -50,16 +60,17 @@ export default function CallToActionWithAnnotation() {
             alignSelf={'center'}
             position={'relative'}>
             <Button
-              colorScheme={'green'}
-              bg={'red.400'}
+              colorScheme={'red'}
+              bg={'#CC3331'}
               rounded={'full'}
               px={6}
               _hover={{
-                bg: 'green.500',
+                bg: 'red.500',
               }}>
-              Get Started
+              <Link href={'/demo'}>Start App</Link>
+
             </Button>
-            <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
+            <Button variant={'link'} colorScheme={'blue'} size={'lg'}>
               Learn more
             </Button>
             <Box>
@@ -84,6 +95,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
+
     </>
   );
 }

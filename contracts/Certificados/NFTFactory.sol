@@ -5,7 +5,7 @@ pragma solidity ^0.8.16;
 import "./ERC721.sol";
 
 contract NF2U {
-
+    event RoundCreated(MyToken contractAddress);
     constructor() {
 
     }
@@ -16,7 +16,9 @@ contract NF2U {
         string memory name,
         string memory symbol,
         address _admin
-    ) public {
-        new MyToken(_cost, _vault, name, symbol, _admin);
+    ) public returns (MyToken _contract) {
+         MyToken newRound = new MyToken(_cost, _vault, name, symbol, _admin);
+         emit RoundCreated(newRound);
+         return newRound;
     }
 }
