@@ -37,21 +37,9 @@ const createCollection = async (req, res) => {
   const account = web3.eth.accounts.privateKeyToAccount(privateKey);
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const tx1 = contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address);
-  const [gasPrice, gasCost1] = await Promise.all([
-    web3.eth.getGasPrice(),
-    tx1.estimateGas({ from: admin })
-  ])
-  const dataTx = tx1.encodeABI();
-  const txData = {
-    from: admin,
-    to: flashloan.options.address,
-    data: dataTx,
-    gas: gasCost1,
-    gasPrice
-  };
-  const receipt = await web3.eth.sendTransaction(txData);
-  console.log(`Tx hash: ${receipt.transactionHash}`);
+  const newCollection = await contract.methods._mintNewNFT().send();
+  console.log(newCollection);
+  return newCollection;
 };
 
 module.exports = createCollection;
