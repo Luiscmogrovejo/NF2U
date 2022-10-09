@@ -26,18 +26,23 @@ const pauseNft = async (req, res) => {
     .select()
     .eq("email", email);
 
-  console.log("Data ", data);
+  // console.log("Data ", data);
   if (error) {
     return res.statusCode(500);
   }
   const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
-  const web3 = new Web3;
-  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-  web3.eth.accounts.wallet.add(account);
-  web3.eth.defaultAccount = account.address;
-  const receipt = await contract.methods.pause()
+  const web3 = new Web3();
+  const account = web3.eth.accounts.privateKeyToAccount(
+    "0x47af79b06ade026a8ef00d41f21f27d16956809e7c553cfd12c789fcabe99f6f"
+  );
+  console.log("ACC ", account);
+  const admin = web3.eth.accounts.wallet.add(account);
+  console.log("Admin ", admin.address);
+  // console.log("Web3", JSON.stringify(web3.eth.accounts));
+  web3.eth.defaultAccount = admin.address;
+  const receipt = await contract.methods.pause().send({ from: admin.address });
   console.log("-->> ", receipt);
 };
 

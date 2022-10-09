@@ -2,8 +2,10 @@ require("dotenv").config();
 const axios = require("axios");
 const Web3 = require("web3");
 const { provider_list, contracts_addresses } = require("../config/providers");
-const ERC721 = require("../abis/ERC721Abi.json");
+const Factory = require("../abis/FactoryAbi.json");
 const { getWeb3, getContract } = require("../config/web3");
+const supabase = require("@supabase/supabase-js");
+const { createClient } = supabase;
 
 const createCollection = async (req, res) => {
   const { chainId, email } = req.body;
@@ -30,12 +32,20 @@ const createCollection = async (req, res) => {
   }
   const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
-  const contract = getContract(provider, ERC721, contractAddress);
+  const contract = getContract(provider, Factory, contractAddress);
   const web3 = new Web3();
-  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+  const account = web3.eth.accounts.privateKeyToAccount(
+    "47af79b06ade026a8ef00d41f21f27d16956809e7c553cfd12c789fcabe99f6f"
+  );
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const newCollection = await contract.methods._mintNewNFT().send();
+  const newCollection = await contract.methods._mintNewNFT(
+    10,
+    account.address,
+    "Test",
+    "TT",
+    account.address
+  );
   console.log(newCollection);
   return newCollection;
 };
