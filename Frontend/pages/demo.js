@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import Image from 'next/image';
 import {
     Box,
@@ -14,6 +15,8 @@ import {
 import Styles from '../styles/Home.module.css';
 
 export default function demo() {
+
+    const router = useRouter();
     return (
         <Container maxW={'7xl'} maxHeight="100vh">
             <Image
@@ -21,6 +24,7 @@ export default function demo() {
                 alt="nf2u"
                 width={200}
                 height={75}
+                onClick={() => router.push('/')}
                 className={Styles.first_logo}
             />
             <Stack
@@ -36,6 +40,9 @@ export default function demo() {
                     <Text color={'#CC3331'}>
                         Mint
                     </Text>
+                    <Text fontSize={'sm'}>
+                            © Powered by XMTP on messaging experience
+                        </Text>
                 </Heading>
             </Stack>
         </Container>
