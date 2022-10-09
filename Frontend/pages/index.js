@@ -45,7 +45,7 @@ export default function CallToActionWithAnnotation() {
             fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}>
             <Text fontSize='4xl'as='b'>NF2U is a bundle of developer tools</Text> <br />
-            <Text fontSize='3xl' color={'red.400'}>
+            <Text fontSize='3xl' color={'#CC3331'}>
               Helps non specialized builders create and manage simplified NFT’s
             </Text>
           </Heading>
@@ -60,7 +60,7 @@ export default function CallToActionWithAnnotation() {
             position={'relative'}>
             <Button
               colorScheme={'red'}
-              bg={'red.400'}
+              bg={'#CC3331'}
               rounded={'full'}
               px={6}
               _hover={{
