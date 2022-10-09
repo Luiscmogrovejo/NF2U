@@ -10,7 +10,6 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-
 contract MyToken is
     ERC721,
     ERC721Enumerable,
@@ -53,8 +52,7 @@ contract MyToken is
     function safeMint() public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-            _safeMint(msg.sender, tokenId);
-
+        _safeMint(msg.sender, tokenId);
     }
 
     function _beforeTokenTransfer(
@@ -76,18 +74,25 @@ contract MyToken is
         return super.supportsInterface(interfaceId);
     }
 
-        function getLatestPrice() public view returns (int) {
+    function getLatestPrice() public view returns (int256) {
         (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
+            ,
+            /*uint80 roundID*/
+            int256 price,
+            ,
+            ,
+
+        ) = /*uint startedAt*/
+            /*uint timeStamp*/
             /*uint80 answeredInRound*/
-        ) = priceFeed.latestRoundData();
+            priceFeed.latestRoundData();
         return price;
     }
 
-        function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
         super._burn(tokenId);
     }
 
@@ -95,6 +100,7 @@ contract MyToken is
         public
         view
         override(ERC721, ERC721URIStorage)
+        onlyOwner
         returns (string memory)
     {
         return super.tokenURI(tokenId);
