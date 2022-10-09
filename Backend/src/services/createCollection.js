@@ -12,6 +12,7 @@ const createCollection = async (req, res) => {
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
   const newCollection = await contract.methods._mintNewNFT().send()
+  console.log(newCollection)
   return newCollection;
 
 }
