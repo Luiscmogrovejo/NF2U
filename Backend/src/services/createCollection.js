@@ -33,7 +33,7 @@ const createCollection = async (req, res) => {
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, Factory, contractAddress);
   const account = provider.eth.accounts.privateKeyToAccount(
-    "47af79b06ade026a8ef00d41f21f27d16956809e7c553cfd12c789fcabe99f6f"
+    data.privateKey.slice(2,64)
   );
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
