@@ -13,7 +13,7 @@
   "description": "",
   "dependencies": {
     "@supabase/supabase-js": "^1.35.7",
-    "@xmtp/xmtp-js": "^6.6.0",
+    "@xmtp/xmtp-js": "^6.8.0",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
