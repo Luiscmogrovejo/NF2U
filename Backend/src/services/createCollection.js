@@ -26,32 +26,45 @@ const createCollection = async (req, res) => {
     .select()
     .eq("email", email);
 
-  console.log("Data ", data);
   if (error) {
     return res.statusCode(500);
   }
-  const { wallet, privateKey } = data;
+  //const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, Factory, contractAddress);
-  const web3 = new Web3();
-  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-  web3.eth.accounts.wallet.add(account);
-  web3.eth.defaultAccount = account.address;
-  const tx1 = contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address);
+  const account = provider.eth.accounts.privateKeyToAccount(
+    "47af79b06ade026a8ef00d41f21f27d16956809e7c553cfd12c789fcabe99f6f"
+  );
+  provider.eth.accounts.wallet.add(account);
+  provider.eth.defaultAccount = account.address;
+  const tx1 = contract.methods._mintNewNFT(
+    10,
+    account.address,
+    "Test",
+    "TST",
+    account.address
+  );
   const [gasPrice, gasCost1] = await Promise.all([
-    web3.eth.getGasPrice(),
-    tx1.estimateGas({ from: admin })
-  ])
+    provider.eth.getGasPrice(),
+    tx1.estimateGas({ from: account.address }),
+  ]);
   const dataTx = tx1.encodeABI();
   const txData = {
-    from: admin,
-    to: flashloan.options.address,
+    from: account.address,
+    to: contract.options.address,
     data: dataTx,
     gas: gasCost1,
-    gasPrice
+    gasPrice,
   };
-  const receipt = await web3.eth.sendTransaction(txData);
+  const receipt = await provider.eth.sendTransaction(txData);
   console.log(`Tx hash: ${receipt.transactionHash}`);
+
+  const hexAddress = receipt.logs[0].data;
+  const newContract = provider.eth.abi.decodeParameter("address", hexAddress);
+  return res.json({
+    status: 200,
+    data: { collectionAddress: newContract, txHash: receipt.transactionHash },
+  });
 };
 
 module.exports = createCollection;
