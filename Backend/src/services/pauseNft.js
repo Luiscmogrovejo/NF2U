@@ -33,8 +33,9 @@ const pauseNft = async (req, res) => {
   const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
-  // const { address: admin } = Web3.eth.accounts.wallet.add(privateKey);
-  const receipt = await contract.methods.pause().send({ from: wallet });
+  const web3 = new Web3;
+  const admin = web3.eth.accounts.wallet.add(privateKey);
+  const receipt = await contract.methods.pause().send({ from: admin });
   console.log("-->> ", receipt);
 };
 
