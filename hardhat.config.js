@@ -38,32 +38,8 @@ module.exports = {
       url: `https://goerli.optimism.io/`,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
-    ropsten: {
-      url: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    bsctest: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    fantom: {
-      url: "https://rpc.ftm.tools/",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    fantom_test: {
-      url: "https://rpc.testnet.fantom.network/",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
     scrollTestnet: {
-      url: "https://prealpha.scroll.io/l2",
+      url: "https://prealpha.scroll.io/l1",
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     mumbai: {
