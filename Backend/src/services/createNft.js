@@ -1,11 +1,10 @@
-const Web3 = require("web3");
-// import mergeImages from "merge-images";
-// const { create as ipfsHttpClient } = require("ipfs-http-client");
-const ERC721 = require("../abis/ERC721abi");
 require("dotenv").config();
-const axios = require("axios").default;
+const axios = require("axios");
+const { provider_list, contracts_addresses } = require("../config/providers");
+const ERC721 = require("../abis/ERC721Abi.json");
+const { getWeb3, getContract } = require("../config/web3");
 
-const createNft = async (times, collectionId, image, userWallet) => {
+const createNft = async (times, image, req, res) => {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
   const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
 
@@ -20,10 +19,15 @@ const createNft = async (times, collectionId, image, userWallet) => {
     },
   });
 
-  const web3 = new Web3("https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/");
-  const contract = new web3.eth.Contract(ERC721, collectionId, {from: userWallet});
+  const { chainId } = req.body;
+
+  const RPC_URL = provider_list[chainId];
+  const contractAddress = contracts_addresses[chainId];
+
+  const provider = getWeb3(RPC_URL);
+  const contract = getContract(provider, ERC721, contractAddress);
   for (i =0; i<times;i++) {
-    await contract.methods.safeMint().send()
+    const tokenId = await contract.methods.safeMint().send()
     const addedImage = await client.add(image);
     const name = `Collection Name`;
     const description = "Description";
@@ -40,9 +44,9 @@ const createNft = async (times, collectionId, image, userWallet) => {
       },
       image: addedImage.path,
     });
-  
+    
     const added2 = await client.add(data);
-
+    await contract.methods.setTokenURI(tokenId, added2.path).send()
   
   }
 
