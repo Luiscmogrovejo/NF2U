@@ -4,7 +4,6 @@ pragma solidity ^0.8.16;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -14,14 +13,13 @@ contract MyToken is
     ERC721,
     ERC721Enumerable,
     Pausable,
-    Ownable,
     ERC721Burnable,
     ERC721URIStorage
 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
-
+    address admin;
     uint256 cost;
     address vault;
 
@@ -31,25 +29,31 @@ contract MyToken is
         uint256 _cost,
         address _vault,
         string memory name,
-        string memory symbol
+        string memory symbol,
+        address _admin
     ) ERC721(name, symbol) {
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
-
+        admin =_admin;
         cost = _cost;
         vault = _vault;
     }
 
-    function pause() public onlyOwner {
+    modifier isAdmin() {
+        require(admin == msg.sender, "Not Owner");
+        _;
+    }
+
+    function pause() public isAdmin {
         _pause();
     }
 
-    function unpause() public onlyOwner {
+    function unpause() public isAdmin {
         _unpause();
     }
 
-    function safeMint() public onlyOwner {
+    function safeMint() public isAdmin {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(msg.sender, tokenId);
@@ -92,6 +96,7 @@ contract MyToken is
     function _burn(uint256 tokenId)
         internal
         override(ERC721, ERC721URIStorage)
+        isAdmin
     {
         super._burn(tokenId);
     }
@@ -100,7 +105,7 @@ contract MyToken is
         public
         view
         override(ERC721, ERC721URIStorage)
-        onlyOwner
+        isAdmin
         returns (string memory)
     {
         return super.tokenURI(tokenId);

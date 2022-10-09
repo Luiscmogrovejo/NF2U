@@ -14,8 +14,9 @@ contract NF2U {
         uint256 _cost,
         address _vault,
         string memory name,
-        string memory symbol
+        string memory symbol,
+        address _admin
     ) public {
-        new MyToken(_cost, _vault, name, symbol);
+        new MyToken(_cost, _vault, name, symbol, _admin);
     }
 }

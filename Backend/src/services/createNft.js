@@ -5,7 +5,7 @@ const ERC721 = require("../abis/ERC721abi");
 require("dotenv").config();
 const axios = require("axios").default;
 
-const createNft = async (times, collectionId, image) => {
+const createNft = async (times, collectionId, image, userWallet) => {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
   const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
 
@@ -21,9 +21,9 @@ const createNft = async (times, collectionId, image) => {
   });
 
   const web3 = new Web3("https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/");
-  const contract = new web3.eth.Contract(ERC721, collectionId);
+  const contract = new web3.eth.Contract(ERC721, collectionId, {from: userWallet});
   for (i =0; i<times;i++) {
-    await contract.methods.safeMint().send({from:})
+    await contract.methods.safeMint().send()
     const addedImage = await client.add(image);
     const name = `Collection Name`;
     const description = "Description";

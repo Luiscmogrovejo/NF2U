@@ -2,7 +2,7 @@ var Web3 = require('web3');
 require("dotenv").config();
 const axios = require("axios").default;
 
-const createCollection = async (req, res) => {
+const createCollection = async (userWallet) => {
   const collectionId = "0x8638BF6B932764Db8C81ECBAA92f36BcAf369cDc";
     const web3 = new Web3("https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/");
     const contract = new web3.eth.Contract([
@@ -39,7 +39,7 @@ const createCollection = async (req, res) => {
         "stateMutability": "nonpayable",
         "type": "constructor"
       }
-    ], collectionId);
+    ], collectionId, {from: userWallet});
     const newCollection = await contract.methods._mintNewNFT().send()
     return newCollection;
 
