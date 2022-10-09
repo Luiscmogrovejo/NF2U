@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Particules from '../components/Particules';
+
 import {
   Box,
   Heading,
@@ -24,7 +26,8 @@ export default function CallToActionWithAnnotation() {
         />
       </Head>
 
-      <Container maxW={'3xl'}>
+      <Container maxW={'3xl'} maxHeight="100vh">
+        <Particules/>
         <img src={folder + "logo_nf2u.png"} alt="nf2u" width="20%" className={Styles.first_logo} />
         <Stack
           as={Box}
@@ -50,12 +53,12 @@ export default function CallToActionWithAnnotation() {
             alignSelf={'center'}
             position={'relative'}>
             <Button
-              colorScheme={'green'}
+              colorScheme={'red'}
               bg={'red.400'}
               rounded={'full'}
               px={6}
               _hover={{
-                bg: 'green.500',
+                bg: 'red.500',
               }}>
               Get Started
             </Button>
@@ -84,6 +87,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
+      
     </>
   );
 }
