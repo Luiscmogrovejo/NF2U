@@ -53,7 +53,7 @@ export default function CallToActionWithAnnotation() {
             alignSelf={'center'}
             position={'relative'}>
             <Button
-              colorScheme={'green'}
+              colorScheme={'red'}
               bg={'red.400'}
               rounded={'full'}
               px={6}
