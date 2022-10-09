@@ -5,7 +5,8 @@
     "test": "npx hardhat test",
     "clean": "npx hardhat clean",
     "deploy:hh": "npx hardhat run --network hardhat scripts/deploy.ts",
-    "deploy:scrollTestnet": "npx hardhat run --network scrollTestnet scripts/deploy.ts"
+    "deploy:scrollTestnet": "npx hardhat run --network scrollTestnet scripts/deploy.ts",
+    "deployAll": "npx hardhat run scripts/deploy.js --network mumbai && npx hardhat run scripts/deploy.js --network goerli && npx hardhat run scripts/deploy.js --network goerliop && npx hardhat run scripts/deploy.js --network scrollTestnet"
   },
   "dependencies": {
     "@chainlink/contracts": "^0.5.1",

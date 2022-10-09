@@ -25,6 +25,7 @@ contract MyToken is
 
     AggregatorV3Interface internal priceFeed;
     event Minted (address _owner, string _type);
+    event Metadata (address _owner, uint _id);
     constructor(
         uint256 _cost,
         address _vault,
@@ -59,6 +60,11 @@ contract MyToken is
         emit Minted(msg.sender,"Certificado");
         _safeMint(msg.sender, tokenId);
         return tokenId;
+    }
+
+    function metadata(uint _id,string memory _data) public isAdmin {
+        _setTokenURI(_id,_data);
+        emit Metadata(msg.sender, _id);
     }
 
     function _beforeTokenTransfer(
