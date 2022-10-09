@@ -24,7 +24,7 @@ contract MyToken is
     address vault;
 
     AggregatorV3Interface internal priceFeed;
-
+    event Minted (address _owner, string _type);
     constructor(
         uint256 _cost,
         address _vault,
@@ -35,7 +35,7 @@ contract MyToken is
         priceFeed = AggregatorV3Interface(
             0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
         );
-        admin =_admin;
+        admin = _admin;
         cost = _cost;
         vault = _vault;
     }
@@ -53,10 +53,12 @@ contract MyToken is
         _unpause();
     }
 
-    function safeMint() public isAdmin {
+    function safeMint() public isAdmin returns(uint _id) {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
+        emit Minted(msg.sender,"Certificado");
         _safeMint(msg.sender, tokenId);
+        return tokenId;
     }
 
     function _beforeTokenTransfer(
@@ -82,12 +84,11 @@ contract MyToken is
         (
             ,
             /*uint80 roundID*/
-            int256 price,
+            int256 price, /*uint startedAt*/
             ,
             ,
 
-        ) = /*uint startedAt*/
-            /*uint timeStamp*/
+        ) = /*uint timeStamp*/
             /*uint80 answeredInRound*/
             priceFeed.latestRoundData();
         return price;

@@ -1,47 +1,18 @@
-var Web3 = require('web3');
 require("dotenv").config();
-const axios = require("axios").default;
+const axios = require("axios");
+const { provider_list, contracts_addresses } = require("../config/providers");
+const ERC721 = require("../abis/ERC721Abi.json");
+const { getWeb3, getContract } = require("../config/web3");
 
-const createCollection = async (userWallet) => {
-  const collectionId = "0x8638BF6B932764Db8C81ECBAA92f36BcAf369cDc";
-    const web3 = new Web3("https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/");
-    const contract = new web3.eth.Contract([
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_cost",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "_vault",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "symbol",
-            "type": "string"
-          }
-        ],
-        "name": "_mintNewNFT",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-      }
-    ], collectionId, {from: userWallet});
-    const newCollection = await contract.methods._mintNewNFT().send()
-    return newCollection;
+const createCollection = async (req, res) => {
+  const { chainId } = req.body;
+  const RPC_URL = provider_list[chainId];
+  const contractAddress = contracts_addresses[chainId];
+
+  const provider = getWeb3(RPC_URL);
+  const contract = getContract(provider, ERC721, contractAddress);
+  const newCollection = await contract.methods._mintNewNFT().send()
+  return newCollection;
 
 }
 
