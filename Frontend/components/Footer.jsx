@@ -13,10 +13,10 @@ import {
 const Logo = (props) => {
     return (
         <img
-          src={"/image/logo_nf2u.png"}
-          alt="nf2u"
-          width={200}
-          height={75}
+            src={"/image/logo_nf2u.png"}
+            alt="nf2u"
+            width={200}
+            height={75}
         />
     );
 };
@@ -44,6 +44,9 @@ export default function LargeWithLogoLeft() {
                         </Box>
                         <Text fontSize={'sm'}>
                             © Powered by XMTP on messaging experience
+                        </Text>
+                        <Text fontSize={'sm'}>
+                            We are using chackra-ui for the frontend
                         </Text>
                     </Stack>
                     <Stack align={'flex-start'}>
