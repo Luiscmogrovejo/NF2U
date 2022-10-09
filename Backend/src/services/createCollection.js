@@ -37,11 +37,10 @@ const createCollection = async (req, res) => {
   const account = web3.eth.accounts.privateKeyToAccount(privateKey);
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const [tx1] = Object.keys(DIRECTION).map(direction => contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address));
-  const [gasPrice, gasCost1, gasCost2] = await Promise.all([
+  const tx1 = contract.methods._mintNewNFT(10, account.address, "Test", "TST", account.address);
+  const [gasPrice, gasCost1] = await Promise.all([
     web3.eth.getGasPrice(),
-    tx1.estimateGas({ from: admin }),
-    tx2.estimateGas({ from: admin })
+    tx1.estimateGas({ from: admin })
   ])
   const dataTx = tx1.encodeABI();
   const txData = {
