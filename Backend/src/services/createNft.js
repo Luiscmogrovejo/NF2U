@@ -5,7 +5,7 @@ const { ERC721 } = require("../abis/ERC721abi");
 require("dotenv").config();
 const axios = require("axios").default;
 
-const createNft = async (collectionId, image) => {
+const createNft = async (times, collectionId, image) => {
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
   const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
 
@@ -20,37 +20,32 @@ const createNft = async (collectionId, image) => {
     },
   });
 
-  const web3 = new Web3(window.ethereum);
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts",
-  });
-  const account = accounts[0];
+  const web3 = new Web3("https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/");
   const contract = new web3.eth.Contract(ERC721, collectionId);
-  const addedImage = await client.add(image);
-  const name = `Collection Name`;
-  const description = "Description";
+  for (i =0; i<times;i++) {
+    await contract.methods.safeMint().send({from:})
+    const addedImage = await client.add(image);
+    const name = `Collection Name`;
+    const description = "Description";
+  
+    const external_url = "url";
+  
+    const data = JSON.stringify({
+      name,
+      description,
+      external_url,
+      id,
+      attributes: {
+        snarkyData,
+      },
+      image: addedImage.path,
+    });
+  
+    const added2 = await client.add(data);
 
-  const external_url = "url";
-
-  const data = JSON.stringify({
-    name,
-    description,
-    external_url,
-    id,
-    attributes: {
-      snarkyData,
-    },
-    image: addedImage.path,
-  });
-
-  const added2 = await client.add(data);
-
-  try {
-    const upgrade = await contract.methods.safeMint().send({ from: account });
-    return true;
-  } catch (error) {
-    return false;
+  
   }
+
 };
 
 module.exports = createNft;
