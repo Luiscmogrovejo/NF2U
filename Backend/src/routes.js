@@ -28,6 +28,9 @@ const quickNode = require("./services/getBlockInformation.js");
 // keys for unlock content
 const createKey = require("./services/createKey.js");
 
+// support Chat message
+const supportChat = require("./services/supportChat.js");
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -48,6 +51,8 @@ router.route("/quickNode").get(quickNode);
 router.route("/createKey").post(createKey);
 
 router.route("/quickNode").get(quickNode);
+
+router.route("/supportChat").get(supportChat);
 
 
 router.route("/").get(routeIndex);

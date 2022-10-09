@@ -4,7 +4,7 @@ const { provider_list, contracts_addresses } = require("../config/providers");
 const ERC721 = require("../abis/ERC721Abi.json");
 const { getWeb3, getContract } = require("../config/web3");
 
-const createNft = async (times, image, contractAddress, req, res) => {
+const sendNFTs = async (addresses, req, res) => {
   const { chainId, email } = req.body;
   if (!chainId) {
     return res.statusCode(500);
@@ -32,24 +32,8 @@ const createNft = async (times, image, contractAddress, req, res) => {
   const account = provider.eth.accounts.privateKeyToAccount(privateKey);
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-
-
-  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
-  const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
-
-  const auth =
-    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const client = ipfsHttpClient({
-    host: "ipfs.infura.io",
-    port: 5001,
-    protocol: "https",
-    headers: {
-      authorization: auth,
-    },
-  });
-
-  for (i =0; i<times;i++) {
-    const tx1 = contract.methods.safeMint();
+  for (i =0; i<addresses.length;i++) {
+    const tx1 = contract.methods.safeTransferFrom(account.address,addresses[i],(i+1));
     const [gasPrice, gasCost1] = await Promise.all([
       web3.eth.getGasPrice(),
       tx1.estimateGas({ from: admin })
@@ -64,26 +48,12 @@ const createNft = async (times, image, contractAddress, req, res) => {
     };
     const receipt = await web3.eth.sendTransaction(txData);
     console.log(`Tx hash: ${receipt.transactionHash}`);
-    const addedImage = await client.add(image);
-    const name = `Collection Name`;
-    const description = "Description";
-  
-    const external_url = "url";
-  
-    const data = JSON.stringify({
-      name,
-      description,
-      external_url,
-      id,
-      attributes: {
-        snarkyData,
-      },
-      image: addedImage.path,
+    const hexAddress = receipt.logs[0].data;
+    const newContract = provider.eth.abi.decodeParameter("address", hexAddress);
+    return res.json({
+      status: 200,
+      data: { collectionAddress: newContract, txHash: receipt.transactionHash },
     });
-    
-    const added2 = await client.add(data);
-    await contract.methods.setTokenURI(tokenId, added2.path).send()
-  
   }
 
 };

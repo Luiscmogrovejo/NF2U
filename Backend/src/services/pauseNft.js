@@ -33,12 +33,37 @@ const pauseNft = async (req, res) => {
   const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
-  const web3 = new Web3;
-  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-  web3.eth.accounts.wallet.add(account);
-  web3.eth.defaultAccount = account.address;
-  const receipt = await contract.methods.pause()
-  console.log("-->> ", receipt);
+  const account = provider.eth.accounts.privateKeyToAccount(
+    privateKey.slice(2, 64)
+  );
+  provider.eth.accounts.wallet.add(account);
+  provider.eth.defaultAccount = account.address;
+
+  const tx1 = contract.methods.pause();
+  const [gasPrice, gasCost1] = await Promise.all([
+    provider.eth.getGasPrice(),
+    tx1.estimateGas({ from: account.address }),
+  ]);
+  const dataTx = tx1.encodeABI();
+  const txData = {
+    from: account.address,
+    to: contract.options.address,
+    data: dataTx,
+    gas: gasCost1,
+    gasPrice,
+  };
+  const receipt = await provider.eth.sendTransaction(txData);
+  console.log(`Tx hash: ${receipt.transactionHash}`);
+  if (!receipt) {
+    return res.json({
+      status: 500,
+      data: { error: "Invalid transaction" },
+    });
+  }
+  return res.json({
+    status: 200,
+    data: { txHash: receipt.transactionHash, paused: true },
+  });
 };
 
 module.exports = pauseNft;
