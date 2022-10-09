@@ -26,13 +26,12 @@ const createNft = async (times, image, contractAddress, req, res) => {
   if (error) {
     return res.statusCode(500);
   }
-  const { wallet, privateKey } = data;
+  const { wallet, privatekey } = data[0];
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
-  const account = provider.eth.accounts.privateKeyToAccount(privateKey);
+  const account = provider.eth.accounts.privateKeyToAccount(privatekey);
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-
 
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
   const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
@@ -48,28 +47,28 @@ const createNft = async (times, image, contractAddress, req, res) => {
     },
   });
 
-  for (i =0; i<times;i++) {
+  for (i = 0; i < times; i++) {
     const tx1 = contract.methods.safeMint();
     const [gasPrice, gasCost1] = await Promise.all([
       web3.eth.getGasPrice(),
-      tx1.estimateGas({ from: admin })
-    ])
+      tx1.estimateGas({ from: admin }),
+    ]);
     const dataTx = tx1.encodeABI();
     const txData = {
       from: admin,
       to: contract.options.address,
       data: dataTx,
       gas: gasCost1,
-      gasPrice
+      gasPrice,
     };
     const receipt = await web3.eth.sendTransaction(txData);
     console.log(`Tx hash: ${receipt.transactionHash}`);
     const addedImage = await client.add(image);
     const name = `Collection Name`;
     const description = "Description";
-  
+
     const external_url = "url";
-  
+
     const data = JSON.stringify({
       name,
       description,
@@ -80,12 +79,10 @@ const createNft = async (times, image, contractAddress, req, res) => {
       },
       image: addedImage.path,
     });
-    
-    const added2 = await client.add(data);
-    await contract.methods.setTokenURI(tokenId, added2.path).send()
-  
-  }
 
+    const added2 = await client.add(data);
+    await contract.methods.setTokenURI(tokenId, added2.path).send();
+  }
 };
 
 module.exports = createNft;

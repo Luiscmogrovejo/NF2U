@@ -1,6 +1,6 @@
-/* 
-* Configuracion de las rutas del servidor.
-*/
+/*
+ * Configuracion de las rutas del servidor.
+ */
 const express = require("express");
 //wallet creation
 const createWallet = require("./services/createWallet.js");
@@ -9,13 +9,11 @@ const getWallet = require("./services/getWallet.js");
 //index
 const routeIndex = require("./services/routeIndex.js");
 
-
-//colection  
+//colection
 const getCollection = require("./services/getCollection.js");
 const createCollection = require("./services/createCollection.js");
 
-
-//nft 
+//nft
 const getNft = require("./services/getNft.js");
 const createNft = require("./services/createNft.js");
 const transferNft = require("./services/transferNft.js");
@@ -30,7 +28,6 @@ const createKey = require("./services/createKey.js");
 
 // support Chat message
 const supportChat = require("./services/supportChat.js");
-
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -52,9 +49,8 @@ router.route("/createKey").post(createKey);
 
 router.route("/quickNode").get(quickNode);
 
-router.route("/supportChat").get(supportChat);
-
+router.route("/supportChat").post(supportChat);
 
 router.route("/").get(routeIndex);
 
-module.exports = router
+module.exports = router;

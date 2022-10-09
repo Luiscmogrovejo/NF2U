@@ -30,11 +30,11 @@ const pauseNft = async (req, res) => {
   if (error) {
     return res.statusCode(500);
   }
-  const { wallet, privateKey } = data;
+  const { wallet, privatekey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721, contractAddress);
   const account = provider.eth.accounts.privateKeyToAccount(
-    privateKey.slice(2, 64)
+    privatekey.slice(2, 64)
   );
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
