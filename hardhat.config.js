@@ -1,3 +1,5 @@
+// Modified for the Arbitrum Hackathon
+
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require("dotenv").config();
@@ -11,6 +13,7 @@ require("dotenv").config();
  */
 
 module.exports = {
+  // defaultNetwork: "goerli",
   allowUnlimitedContractSize: true,
   solidity: {
     compilers: [
@@ -30,22 +33,24 @@ module.exports = {
     coinmarketcap: process.env.coinMarketCap_API,
   },
   networks: {
-    goerli: {
-      url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    // goerli: {
+    //   // url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+    //   url: `https://distinguished-light-breeze.ethereum-goerli.discover.quiknode.pro/39ed6ebac3cfbed9018e3298e383ef03820f023e/`,
+    //   accounts: "remote",
+    //   // accounts: [`0x${process.env.PRIVATE_KEY}`],
+    // },
+
+    arbitrumGoerli: {
+      url: `https://necessary-frequent-dust.arbitrum-goerli.discover.quiknode.pro/9f05f61e1a2686ed3412efca21a143dcf9bcaa2f/`,
+      // url: `https://goerli-rollup.arbitrum.io/rpc`,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
+      // chainId: "42161",
     },
-    goerliop: {
-      url: `https://goerli.optimism.io/`,
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    scrollTestnet: {
-      url: "https://prealpha.scroll.io/l1",
-      accounts: [`0x${process.env.PRIVATE_KEY}`],
-    },
-    mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
-      accounts: [process.env.PRIVATE_KEY]
-    }
+
+    // arbitrumNova: {
+    //   url: `https://nova.arbitrum.io/`,
+    //   accounts: [`0x${process.env.PRIVATE_KEY}`],  
+    // }
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,

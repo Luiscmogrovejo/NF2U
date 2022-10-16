@@ -1,3 +1,5 @@
+//Updated for the Arbitrum Hackathon
+
 require("dotenv").config();
 const axios = require("axios");
 const { provider_list, contracts_addresses } = require("../config/providers");

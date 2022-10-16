@@ -1,3 +1,5 @@
+//Modified for the Arbitrum Hackathon
+
 //require("dotenv").config();
 const axios = require("axios").default;
 const Web3 = require('web3');
@@ -31,6 +33,7 @@ const createWallet  = async (req, res) => {
     ]);
 
     if(!error) {
+        console.log("Wallet created, info saved into databse.");
         return (
             res.json({
                 status: "ok",

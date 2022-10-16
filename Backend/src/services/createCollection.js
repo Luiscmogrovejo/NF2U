@@ -1,3 +1,5 @@
+//Modified for the Arbitrum Hackathon
+
 require("dotenv").config();
 const axios = require("axios");
 const Web3 = require("web3");
@@ -10,6 +12,7 @@ const { createClient } = supabase;
 const createCollection = async (req, res) => {
   const { chainId, email } = req.body;
   if (!chainId) {
+    console.log("Please input a valid chainId.")
     return res.statusCode(500);
   }
 

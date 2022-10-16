@@ -3,6 +3,7 @@ node_modules
 coverage
 coverage.json
 typechain
+Deployed Contracts.txt
 
 #Hardhat files
 cache

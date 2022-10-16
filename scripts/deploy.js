@@ -1,3 +1,5 @@
+//Modified for the Arbitrum Hackathon
+
 // We require the Hardhat Runtime Environment explicitly here. This is optional
 // but useful for running the script in a standalone fashion through `node <script>`.
 //
@@ -15,13 +17,11 @@ async function main() {
 
   // We get the contract to deploy
   const Greeter = await hre.ethers.getContractFactory("NF2U");
-  const greeter = await Greeter.deploy(
-    
-  );
-
+  const greeter = await Greeter.deploy();
   await greeter.deployed();
+  console.log("Greeter deployed to: ", greeter.address);
+  console.log("Contract details: ", Greeter);
 
-  console.log("Greeter deployed to:", greeter.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
