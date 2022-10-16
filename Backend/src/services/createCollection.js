@@ -32,6 +32,7 @@ const createCollection = async (req, res) => {
   //const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, Factory, contractAddress);
+  //console.log( data);
   const account = provider.eth.accounts.privateKeyToAccount(
     data[0].privatekey // .slice(2, 64)
   );
