@@ -1,7 +1,7 @@
 /*
  * Configuracion de las rutas del servidor.
  */
-const express = require("express");
+import { Router } from "express";
 //wallet creation
 const createWallet = require("./services/createWallet.js");
 const getWallet = require("./services/getWallet.js");
@@ -18,39 +18,37 @@ const getNft = require("./services/getNft.js");
 const createNft = require("./services/createNft.js");
 const transferNft = require("./services/transferNft.js");
 const pauseNft = require("./services/pauseNft.js");
-const bridgeNft = require("./services/bridgeNft.js");
+// const bridgeNft = require("./services/bridgeNft.js");
 
 //quickNode
 const quickNode = require("./services/getBlockInformation.js");
 
 // keys for unlock content
-const createKey = require("./services/createKey.js");
+// const createKey = require("./services/createKey.js");
 
 // support Chat message
 const supportChat = require("./services/supportChat.js");
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-const router = express.Router();
+const router: Router = require("express").Router();
 
-router.route("/createWallet").post(createWallet);
-router.route("/getWallet").post(getWallet);
+router.post("/createWallet", createWallet);
+router.post("/getWallet", getWallet);
 
-router.route("/getCollection").post(getCollection);
-router.route("/createCollection").post(createCollection);
+router.post("/getCollection", getCollection);
+router.post("/createCollection", createCollection);
 
-router.route("/getNft").post(getNft);
-router.route("/create-nft").post(createNft);
-router.route("/transferNft").post(transferNft);
-router.route("/pauseNft").post(pauseNft);
-router.route("/bridgeNft").post(bridgeNft);
-router.route("/quickNode").get(quickNode);
-router.route("/createKey").post(createKey);
+router.post("/getNft", getNft);
+router.post("/create-nft", createNft);
+router.post("/transferNft", transferNft);
+router.post("/pauseNft", pauseNft);
+// router.post("/bridgeNft", bridgeNft);
+// router.post("/createKey", createKey);
+router.post("/supportChat", supportChat);
 
-router.route("/quickNode").get(quickNode);
-
-router.route("/supportChat").post(supportChat);
-
-router.route("/").get(routeIndex);
+router.get("/quickNode", quickNode);
+router.get("/quickNode", quickNode);
+router.get("/", routeIndex);
 
 module.exports = router;
