@@ -2,12 +2,40 @@ require("dotenv").config();
 const axios = require("axios");
 const { provider_list, contracts_addresses } = require("../config/providers");
 // const {ipfsClient} = require("ipfs-http-client");
-const ERC721 = require("../abis/ERC721Abi.json");
+import {ERC721Abi} from "../abis/ERC721Abi.js";
 const { getWeb3, getContract } = require("../config/web3");
 const supabase = require("@supabase/supabase-js");
 const { createClient } = supabase;
+const { create } = require("ipfs-http-client");
+const fs = require("fs");
 
-const createNft = async (req, res) => {
+async function ipfsClient() {
+  const ipfs = await create({
+    host: "ipfs.infura.io",
+    port: 5001,
+    protocol: "https",
+  });
+  return ipfs;
+}
+
+/**
+ * @param {import("ipfs-core-types/dist/src/utils").IPFSPath} hash
+ */
+async function getData(hash: any) {
+  let ipfs = await ipfsClient();
+
+  let asyncitr = ipfs.cat(hash);
+
+  for await (const itr of asyncitr) {
+    let data = Buffer.from(itr).toString();
+    console.log(data);
+  }
+}
+
+const createNft = async (
+  /** @type {{ body: { chainId: any; email: any; times: any; image: any; contractAddress: any; }; }} */ req: { body: { chainId: any; email: any; times: any; image: any; contractAddress: any; }; },
+  /** @type {{ statusCode: (arg0: number) => any; }} */ res: { statusCode: (arg0: number) => any; }
+) => {
   console.log("---------");
   const { chainId, email, times, image, contractAddress } = req.body;
   if (!chainId) {
@@ -32,60 +60,56 @@ const createNft = async (req, res) => {
   }
   const { wallet, privatekey } = data[0];
   const provider = getWeb3(RPC_URL);
-  const contract = getContract(provider, ERC721, contractAddress);
+  const contract = getContract(provider, ERC721Abi, contractAddress);
   const account = provider.eth.accounts.privateKeyToAccount(privatekey);
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
 
-  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID_INFURA;
-  const projectSecret = process.env.NEXT_PUBLIC_PROJECT_SECRET_INFURA;
-
-  // const auth =
-  //   "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  // const client = ipfsClient.create({
-  //   host: "ipfs.infura.io",
-  //   port: 5001,
-  //   protocol: "https",
-  //   headers: {
-  //     authorization: auth,
-  //   },
-  // });
-
-  for (i = 0; i < times; i++) {
+  for (let i = 0; i < times; i++) {
     const tx1 = contract.methods.safeMint();
     const [gasPrice, gasCost1] = await Promise.all([
       provider.eth.getGasPrice(),
-      tx1.estimateGas({ from: admin }),
+      tx1.estimateGas({ from: wallet }),
     ]);
     const dataTx = tx1.encodeABI();
     const txData = {
-      from: admin,
+      from: wallet,
       to: contract.options.address,
       data: dataTx,
       gas: gasCost1,
       gasPrice,
     };
     const receipt = await provider.eth.sendTransaction(txData);
+
+    let ipfs = await ipfsClient();
+    let image = fs.readFileSync("./image.json");
+    let options = {
+      warpWithDirectory: false,
+      progress: (/** @type {any} */ prog: any) => console.log(`Saved :${prog}`),
+    };
+    let result = await ipfs.add(image, options);
+    console.log(result);
+
     console.log(`Tx hash: ${receipt.transactionHash}`);
-    const addedImage = await client.add(image);
+    const addedImage = await ipfs.add(image);
     const name = `Collection Name`;
     const description = "Description";
-
+    const snarkyData = "Snarky"
     const external_url = "url";
 
     const data = JSON.stringify({
       name,
       description,
       external_url,
-      id,
+      id: times,
       attributes: {
         snarkyData,
       },
       image: addedImage.path,
     });
 
-    const added2 = await client.add(data);
-    await contract.methods.setTokenURI(tokenId, added2.path).send();
+    const added2 = await ipfs.add(data);
+    await contract.methods.setTokenURI(times, added2.path).send();
   }
 };
 

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const axios = require("axios");
 const { provider_list, contracts_addresses } = require("../config/providers");
-const ERC721 = require("../abis/ERC721Abi.json");
+const ERC721 = require("../abis/ERC721Abi.js");
 const { getWeb3, getContract } = require("../config/web3");
 
 const sendNFTs = async (addresses, req, res) => {

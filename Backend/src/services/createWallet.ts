@@ -5,7 +5,7 @@ const supabase = require('@supabase/supabase-js');
 const { createClient } = supabase;
 
 
-const createWallet  = async (req, res) => {
+const createWallet  = async (req: { body: { email: any; }; }, res: { json: (arg0: { status: string; wallet: any; }) => any; }) => {
     
     const supabase = createClient('https://mnnbyrdnpuienzscjzjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0');
   
