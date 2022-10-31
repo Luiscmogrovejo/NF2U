@@ -1,4 +1,4 @@
-const provider_list = {
+export const provider_list = {
   80001:
     "https://attentive-ancient-spring.matic-testnet.discover.quiknode.pro/ffd31463498f334a11f8583f94c9e030e0b82c90/",
   420: "https://muddy-methodical-shard.optimism-goerli.discover.quiknode.pro/1b6f71eb1516d728ed685e3feb911a318aa8837f/",
@@ -7,7 +7,7 @@ const provider_list = {
   43114 : "https://avax-rpc.gateway.pokt.network"
 };
 
-const contracts_addresses = {
+export const contracts_addresses = {
   80001: "0x763E9E7eC7c414ee2eB4986e4D061f65A9522eA2",
   420: "0x345B24D5f4A8Bfd81133bad3df8C3c0D9a989Ee8",
   534351: "0x64C796eef81374442AB0e6B6Ad4C2Ceb14EFcbF0",

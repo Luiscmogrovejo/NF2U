@@ -1,13 +1,13 @@
 require("dotenv").config();
-const axios = require("axios");
-const { provider_list, contracts_addresses } = require("../config/providers");
+import axios from "axios";
+import { provider_list, contracts_addresses } from "../config/providers";
 // const {ipfsClient} = require("ipfs-http-client");
 import {ERC721Abi} from "../abis/ERC721Abi.js";
-const { getWeb3, getContract } = require("../config/web3");
-const supabase = require("@supabase/supabase-js");
+import { getWeb3, getContract } from "../config/web3";
+import supabase from "@supabase/supabase-js";
 const { createClient } = supabase;
-const { create } = require("ipfs-http-client");
-const fs = require("fs");
+import { create } from "ipfs-http-client";
+import fs from "fs";
 
 async function ipfsClient() {
   const ipfs = await create({
