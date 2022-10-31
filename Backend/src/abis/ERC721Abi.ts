@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const ERC721Abi = [
   {
     inputs: [

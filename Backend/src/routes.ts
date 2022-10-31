@@ -15,7 +15,7 @@ const createCollection = require("./services/createCollection.js");
 
 //nft
 const getNft = require("./services/getNft.js");
-const createNft = require("./services/createNft.js");
+const createNft = require("./services/createNft.ts");
 const transferNft = require("./services/transferNft.js");
 const pauseNft = require("./services/pauseNft.js");
 // const bridgeNft = require("./services/bridgeNft.js");

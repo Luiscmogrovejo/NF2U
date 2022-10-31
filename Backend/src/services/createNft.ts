@@ -2,10 +2,9 @@ require("dotenv").config();
 import axios from "axios";
 import { provider_list, contracts_addresses } from "../config/providers";
 // const {ipfsClient} = require("ipfs-http-client");
-import {ERC721Abi} from "../abis/ERC721Abi.js";
+import { ERC721Abi } from "../abis/ERC721Abi";
 import { getWeb3, getContract } from "../config/web3";
-import supabase from "@supabase/supabase-js";
-const { createClient } = supabase;
+import { createClient } from "@supabase/supabase-js";
 import { create } from "ipfs-http-client";
 import fs from "fs";
 
@@ -33,8 +32,18 @@ async function getData(hash: any) {
 }
 
 const createNft = async (
-  /** @type {{ body: { chainId: any; email: any; times: any; image: any; contractAddress: any; }; }} */ req: { body: { chainId: any; email: any; times: any; image: any; contractAddress: any; }; },
-  /** @type {{ statusCode: (arg0: number) => any; }} */ res: { statusCode: (arg0: number) => any; }
+  /** @type {{ body: { chainId: any; email: any; times: any; image: any; contractAddress: any; }; }} */ req: {
+    body: {
+      chainId: any;
+      email: any;
+      times: any;
+      image: any;
+      contractAddress: any;
+    };
+  },
+  /** @type {{ statusCode: (arg0: number) => any; }} */ res: {
+    statusCode: (arg0: number) => any;
+  }
 ) => {
   console.log("---------");
   const { chainId, email, times, image, contractAddress } = req.body;
@@ -94,7 +103,7 @@ const createNft = async (
     const addedImage = await ipfs.add(image);
     const name = `Collection Name`;
     const description = "Description";
-    const snarkyData = "Snarky"
+    const snarkyData = "Snarky";
     const external_url = "url";
 
     const data = JSON.stringify({
