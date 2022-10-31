@@ -1,11 +1,11 @@
 //require("dotenv").config();
-const axios = require("axios").default;
-const Web3 = require('web3');
-const supabase = require('@supabase/supabase-js');
-const { createClient } = supabase;
+import axios from "axios";
+import { Request, Response } from "express";
+import { createClient } from "@supabase/supabase-js";
+import Web3 from "web3";
 
 
-const createWallet  = async (req: { body: { email: any; }; }, res: { json: (arg0: { status: string; wallet: any; }) => any; }) => {
+const createWallet  = async (req, res) => {
     
     const supabase = createClient('https://mnnbyrdnpuienzscjzjk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0');
   
@@ -19,26 +19,27 @@ const createWallet  = async (req: { body: { email: any; }; }, res: { json: (arg0
     var web3 = new Web3(new Web3.providers.HttpProvider(provider_array.goerli));   
     var account = web3.eth.accounts.create();
 
-    // console.log(account.address);
-    // console.log(account.privateKey);
-    // console.log(req.body.email);
-    //console.log(supabase);
+  // console.log(account.address);
+  // console.log(account.privateKey);
+  // console.log(req.body.email);
+  //console.log(supabase);
 
-    const {respuesta, error} = await supabase
-    .from('Users')
+  const { error } = await supabase
+    .from("Users")
     .insert([
-        { email: req.body.email, wallet: account.address, privatekey:account.privateKey  }
+      {
+        email: req.body.email,
+        wallet: account.address,
+        privatekey: account.privateKey,
+      },
     ]);
 
-    if(!error) {
-        return (
-            res.json({
-                status: "ok",
-                wallet: account.address
-            })
-        )
-    }
-    
-}
+  if (!error) {
+    return res.json({
+      status: "ok",
+      wallet: account.address,
+    });
+  }
+};
 
 module.exports = createWallet;
