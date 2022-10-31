@@ -4,7 +4,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const app = require("./server.js");
+const app = require("./server.ts");
 
 const port = process.env.PORT || 8000;
 

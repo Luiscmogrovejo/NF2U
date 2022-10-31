@@ -3,7 +3,7 @@
  */
 import { Router } from "express";
 //wallet creation
-const createWallet = require("./services/createWallet.js");
+const createWallet = require("./services/createWallet.ts");
 const getWallet = require("./services/getWallet.js");
 
 //index
