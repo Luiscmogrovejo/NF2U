@@ -18,7 +18,7 @@ contract MyToken is
 {
     using Counters for Counters.Counter;
 
-    Counters.Counter private _tokenIdCounter;
+    Counters.Counter public _tokenIdCounter;
     address admin;
     uint256 cost;
     address vault;
