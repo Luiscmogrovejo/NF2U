@@ -9,7 +9,7 @@ import { create } from "ipfs-http-client";
 import fs from "fs";
 
 async function ipfsClient() {
-  const ipfs = await create({
+  const ipfs = create({
     host: "ipfs.infura.io",
     port: 5001,
     protocol: "https",
@@ -39,6 +39,9 @@ const createNft = async (
       times: any;
       image: any;
       contractAddress: any;
+      name: any;
+      description:any;
+      snarky:any;
     };
   },
   /** @type {{ statusCode: (arg0: number) => any; }} */ res: {
@@ -46,7 +49,7 @@ const createNft = async (
   }
 ) => {
   console.log("---------");
-  const { chainId, email, times, image, contractAddress } = req.body;
+  const { chainId, email, times, image, name, description, snarky } = req.body;
   if (!chainId) {
     return res.statusCode(500);
   }
@@ -55,7 +58,7 @@ const createNft = async (
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0"
   );
-
+  const address = contracts_addresses[chainId]
   const RPC_URL = provider_list[chainId];
 
   const { data, error } = await supabase
@@ -69,12 +72,14 @@ const createNft = async (
   }
   const { wallet, privatekey } = data[0];
   const provider = getWeb3(RPC_URL);
-  const contract = getContract(provider, ERC721Abi, contractAddress);
+  const contract = getContract(provider, ERC721Abi, address);
   const account = provider.eth.accounts.privateKeyToAccount(privatekey);
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
 
+
   for (let i = 0; i < times; i++) {
+    const idNumber = contract.methods._tokenIdCounter().call()
     const tx1 = contract.methods.safeMint();
     const [gasPrice, gasCost1] = await Promise.all([
       provider.eth.getGasPrice(),
@@ -91,26 +96,21 @@ const createNft = async (
     const receipt = await provider.eth.sendTransaction(txData);
 
     let ipfs = await ipfsClient();
-    let image = fs.readFileSync("./image.json");
-    let options = {
-      warpWithDirectory: false,
-      progress: (/** @type {any} */ prog: any) => console.log(`Saved :${prog}`),
-    };
-    let result = await ipfs.add(image, options);
+
+    let result = await ipfs.add(image);
     console.log(result);
 
     console.log(`Tx hash: ${receipt.transactionHash}`);
     const addedImage = await ipfs.add(image);
-    const name = `Collection Name`;
-    const description = "Description";
-    const snarkyData = "Snarky";
-    const external_url = "url";
 
+    const snarkyData = snarky;
+    const external_url = "url";
+    
     const data = JSON.stringify({
       name,
       description,
       external_url,
-      id: times,
+      id: idNumber,
       attributes: {
         snarkyData,
       },
@@ -118,7 +118,7 @@ const createNft = async (
     });
 
     const added2 = await ipfs.add(data);
-    await contract.methods.setTokenURI(times, added2.path).send();
+    await contract.methods._setTokenURI(idNumber, added2.path).send();
   }
 };
 
