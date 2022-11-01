@@ -1,10 +1,9 @@
 /*
  * Configuracion del index que escuchara las solicitudes al servidos.
  */
-import * as dotenv from "dotenv";
-dotenv.config();
+require('dotenv').config()
 
-const app = require("./server.ts");
+const app = require("./server");
 
 const port = process.env.PORT || 8000;
 

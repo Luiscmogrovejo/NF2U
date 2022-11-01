@@ -2,12 +2,12 @@ require("dotenv").config();
 const axios = require("axios");
 const Web3 = require("web3");
 const { provider_list, contracts_addresses } = require("../config/providers");
-const Factory = require("../abis/FactoryAbi.json");
+import {FactoryAbi} from "../abis/FactoryAbi";
 const { getWeb3, getContract } = require("../config/web3");
 const supabase = require("@supabase/supabase-js");
 const { createClient } = supabase;
 
-const createCollection = async (req, res) => {
+export const createCollection = async (req: { body: { chainId: any; email: any; }; }, res: { statusCode: (arg0: number) => any; json: (arg0: { status: number; data: { collectionAddress: any; txHash: any; }; }) => any; }) => {
   const { chainId, email } = req.body;
   if (!chainId) {
     return res.statusCode(500);
@@ -31,7 +31,7 @@ const createCollection = async (req, res) => {
   }
   //const { wallet, privateKey } = data;
   const provider = getWeb3(RPC_URL);
-  const contract = getContract(provider, Factory, contractAddress);
+  const contract = getContract(provider, FactoryAbi, contractAddress);
   //console.log( data);
   const account = provider.eth.accounts.privateKeyToAccount(
     data[0].privatekey // .slice(2, 64)

@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { createClient } from "@supabase/supabase-js";
 import Web3 from "web3";
 
-const createWallet = async (req: Request, res: Response) => {
+export const createWallet = async (req: Request, res: Response) => {
   const supabase = createClient(
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0"

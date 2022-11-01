@@ -1,12 +1,10 @@
 require("dotenv").config();
-import axios from "axios";
 import { provider_list, contracts_addresses } from "../config/providers";
 // const {ipfsClient} = require("ipfs-http-client");
 import { ERC721Abi } from "../abis/ERC721Abi";
 import { getWeb3, getContract } from "../config/web3";
 import { createClient } from "@supabase/supabase-js";
 import { create } from "ipfs-http-client";
-import fs from "fs";
 
 async function ipfsClient() {
   const ipfs = create({
@@ -17,21 +15,21 @@ async function ipfsClient() {
   return ipfs;
 }
 
-/**
- * @param {import("ipfs-core-types/dist/src/utils").IPFSPath} hash
- */
-async function getData(hash: any) {
-  let ipfs = await ipfsClient();
+// /**
+//  * @param {import("ipfs-core-types/dist/src/utils").IPFSPath} hash
+//  */
+// async function getData(hash: any) {
+//   let ipfs = await ipfsClient();
 
-  let asyncitr = ipfs.cat(hash);
+//   let asyncitr = ipfs.cat(hash);
 
-  for await (const itr of asyncitr) {
-    let data = Buffer.from(itr).toString();
-    console.log(data);
-  }
-}
+//   for await (const itr of asyncitr) {
+//     let data = Buffer.from(itr).toString();
+//     console.log(data);
+//   }
+// }
 
-const createNft = async (
+export const createNft = async (
   /** @type {{ body: { chainId: any; email: any; times: any; image: any; contractAddress: any; }; }} */ req: {
     body: {
       chainId: any;

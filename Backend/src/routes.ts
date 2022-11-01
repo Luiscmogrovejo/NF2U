@@ -3,15 +3,15 @@
  */
 import { Router } from "express";
 //wallet creation
-const createWallet = require("./services/createWallet.ts");
-const getWallet = require("./services/getWallet.js");
+const createWallet = require("./services/createWallet");
+const getWallet = require("./services/getWallet");
 
 //index
 const routeIndex = require("./services/routeIndex.js");
 
 //colection
 const getCollection = require("./services/getCollection.js");
-const createCollection = require("./services/createCollection.js");
+const createCollection = require("./services/createCollection");
 
 //nft
 const getNft = require("./services/getNft.js");
