@@ -19,7 +19,7 @@
     "ethers": "^5.7.1",
     "express": "^4.18.1",
     "ipfs": "^0.64.2",
-    "ipfs-http-client": "^58.0.1",
+    "ipfs-http-client": "^56.0.2",
     "nodemon": "^2.0.19",
     "web3": "^1.8.0"
   },

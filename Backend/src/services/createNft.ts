@@ -38,8 +38,8 @@ export const createNft = async (
       image: any;
       contractAddress: any;
       name: any;
-      description:any;
-      snarky:any;
+      description: any;
+      snarky: any;
     };
   },
   /** @type {{ statusCode: (arg0: number) => any; }} */ res: {
@@ -56,7 +56,7 @@ export const createNft = async (
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0"
   );
-  const address = contracts_addresses[chainId]
+  const address = contracts_addresses[chainId];
   const RPC_URL = provider_list[chainId];
 
   const { data, error } = await supabase
@@ -75,9 +75,8 @@ export const createNft = async (
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
 
-
   for (let i = 0; i < times; i++) {
-    const idNumber = contract.methods._tokenIdCounter().call()
+    const idNumber = contract.methods._tokenIdCounter().call();
     const tx1 = contract.methods.safeMint();
     const [gasPrice, gasCost1] = await Promise.all([
       provider.eth.getGasPrice(),
@@ -103,7 +102,7 @@ export const createNft = async (
 
     const snarkyData = snarky;
     const external_url = "url";
-    
+
     const data = JSON.stringify({
       name,
       description,
