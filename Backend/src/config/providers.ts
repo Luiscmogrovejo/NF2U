@@ -4,7 +4,7 @@ export const provider_list: any = {
   420: "https://muddy-methodical-shard.optimism-goerli.discover.quiknode.pro/1b6f71eb1516d728ed685e3feb911a318aa8837f/",
   534351: "https://prealpha.scroll.io/l1",
   5: "https://goerli.ethereum.coinbasecloud.net",
-  43114: "https://avax-rpc.gateway.pokt.network",
+  43114: "https://avax-rpc.gateway.pokt.network"
 };
 
 export const contracts_addresses: any = {
@@ -13,6 +13,7 @@ export const contracts_addresses: any = {
   534351: "0x64C796eef81374442AB0e6B6Ad4C2Ceb14EFcbF0",
   5: "0xbad92a3E93b6c09ed77ae67AB93Dd785dF83d157",
   43114: "", //avalanche
+ 
 };
 
 module.exports = {

@@ -5,6 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 import Web3 from "web3";
 
 export const createWallet = async (req: Request, res: Response) => {
+  console.log("create Wallet triggered");
+  
   const supabase = createClient(
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0"
@@ -23,10 +25,18 @@ export const createWallet = async (req: Request, res: Response) => {
   var web3 = new Web3(new Web3.providers.HttpProvider(provider_array.goerli));
   var account = web3.eth.accounts.create();
 
-  // console.log(account.address);
-  // console.log(account.privateKey);
-  // console.log(req.body.email);
-  //console.log(supabase);
+  console.log("------- CREATED PUBLIC ADDRESS ------");
+  console.log(account.address);
+  console.log("------- CREATED PRIVATE KEY ------");
+  console.log(account.privateKey);
+  // console.log("------- REQ ------");
+  // console.log(req);
+  console.log("------- REQ.BODY ------");
+  console.log(req.body);
+  console.log("------- REQ.BODY.EMAIL ------");
+  console.log(req.body.email);
+  console.log("------- SUPABASE OBJECT ------");
+  console.log(supabase);
 
   const { error } = await supabase.from("Users").insert([
     {
@@ -35,6 +45,14 @@ export const createWallet = async (req: Request, res: Response) => {
       privatekey: account.privateKey,
     },
   ]);
+
+  if (error) {
+    return res.json({
+      status: 500,
+      msg: "error con Supabase",
+      error_enviado_por_supabase: error
+    })
+  }
 
   if (!error) {
     return res.json({
