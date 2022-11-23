@@ -6,6 +6,7 @@ import { getWeb3, getContract } from "../config/web3";
 import { createClient } from "@supabase/supabase-js";
 import { create } from "ipfs-http-client";
 
+const client = create();
 // async function ipfsClient() {
 //   const ipfs = create({
 //     host: "ipfs.infura.io",
@@ -46,10 +47,16 @@ export const createNft = async (
     statusCode: (arg0: number) => any;
   }
 ) => {
-  console.log("---------");
-  console.log(req.body);
-  
-  const { chainId, email, times, image, contractAddress, name, description, snarky } = req.body;
+  const {
+    chainId,
+    email,
+    times,
+    image,
+    contractAddress,
+    name,
+    description,
+    snarky,
+  } = req.body;
   if (!chainId) {
     return res.statusCode(500);
   }
@@ -57,7 +64,6 @@ export const createNft = async (
   // console.log(email);
   // console.log(contractAddress);
   // console.log("--------- END OF CONTRACT ADDRESS -------");
-  
 
   const supabase = createClient(
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
@@ -79,7 +85,10 @@ export const createNft = async (
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721Abi, contractAddress);
   //console.log("contract: ", contract);
-  
+
+  const ipfsFile = await client.add("NF2U");
+  console.log("IPFS ", ipfsFile);
+
   const account = provider.eth.accounts.privateKeyToAccount(privatekey);
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
@@ -121,7 +130,7 @@ export const createNft = async (
     //   attributes: {
     //     snarkyData,
     //   }
-      //image: addedImage.path,
+    //image: addedImage.path,
     // });
 
     //const added2 = await ipfs.add(data);

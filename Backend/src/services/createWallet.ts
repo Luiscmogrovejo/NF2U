@@ -6,7 +6,7 @@ import Web3 from "web3";
 
 export const createWallet = async (req: Request, res: Response) => {
   console.log("create Wallet triggered");
-  
+
   const supabase = createClient(
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ubmJ5cmRucHVpZW56c2NqemprIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjUyNDAxNDUsImV4cCI6MTk4MDgxNjE0NX0.ynlyyTYvPKrNHDJW7mRj3_X41VSihmzuEkOO5OJF6P0"
@@ -22,7 +22,7 @@ export const createWallet = async (req: Request, res: Response) => {
       "https://distinguished-light-breeze.ethereum-goerli.discover.quiknode.pro/39ed6ebac3cfbed9018e3298e383ef03820f023e/",
   };
 
-  var web3 = new Web3(new Web3.providers.HttpProvider(provider_array.goerli));
+  var web3 = new Web3(new Web3.providers.HttpProvider(provider_array.mumbai));
   var account = web3.eth.accounts.create();
 
   console.log("------- CREATED PUBLIC ADDRESS ------");
@@ -50,8 +50,8 @@ export const createWallet = async (req: Request, res: Response) => {
     return res.json({
       status: 500,
       msg: "error con Supabase",
-      error_enviado_por_supabase: error
-    })
+      error_enviado_por_supabase: error,
+    });
   }
 
   if (!error) {

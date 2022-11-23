@@ -1,13 +1,21 @@
 require("dotenv").config();
-const axios = require("axios");
-const Web3 = require("web3");
-const { provider_list, contracts_addresses } = require("../config/providers");
-import {FactoryAbi} from "../abis/FactoryAbi";
+import axios from "axios";
+import Web3 from "web3";
+import { provider_list, contracts_addresses } from "../config/providers";
+import { FactoryAbi } from "../abis/FactoryAbi";
 const { getWeb3, getContract } = require("../config/web3");
-const supabase = require("@supabase/supabase-js");
-const { createClient } = supabase;
+import { createClient } from "@supabase/supabase-js";
 
-export const createCollection = async (req: { body: { chainId: any; email: any; }; }, res: { statusCode: (arg0: number) => any; json: (arg0: { status: number; data: { collectionAddress: any; txHash: any; }; }) => any; }) => {
+export const createCollection = async (
+  req: { body: { chainId: any; email: any } },
+  res: {
+    statusCode: (arg0: number) => any;
+    json: (arg0: {
+      status: number;
+      data: { collectionAddress: any; txHash: any };
+    }) => any;
+  }
+) => {
   const { chainId, email } = req.body;
   if (!chainId) {
     return res.statusCode(500);
@@ -41,8 +49,8 @@ export const createCollection = async (req: { body: { chainId: any; email: any; 
   const tx1 = contract.methods._mintNewNFT(
     10,
     account.address,
-    "Test",
-    "TST",
+    "NF2Test",
+    "NF2TST",
     account.address
   );
   const [gasPrice, gasCost1] = await Promise.all([
