@@ -8,7 +8,7 @@ export const provider_list: any = {
 };
 
 export const contracts_addresses: any = {
-  80001: "0x763E9E7eC7c414ee2eB4986e4D061f65A9522eA2",
+  80001: "0x7f64EC9b53630E5ECe27384a1D606a894903F950",
   420: "0x345B24D5f4A8Bfd81133bad3df8C3c0D9a989Ee8",
   534351: "0x64C796eef81374442AB0e6B6Ad4C2Ceb14EFcbF0",
   5: "0xbad92a3E93b6c09ed77ae67AB93Dd785dF83d157",

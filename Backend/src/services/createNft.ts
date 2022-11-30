@@ -45,6 +45,10 @@ export const createNft = async (
   },
   /** @type {{ statusCode: (arg0: number) => any; }} */ res: {
     statusCode: (arg0: number) => any;
+    json: (arg0: {
+      status: number;
+      data: { txHash: any };
+    }) => any;
   }
 ) => {
   const {
@@ -60,10 +64,6 @@ export const createNft = async (
   if (!chainId) {
     return res.statusCode(500);
   }
-  // console.log("--------- CONTRACT ADDRESS -------");
-  // console.log(email);
-  // console.log(contractAddress);
-  // console.log("--------- END OF CONTRACT ADDRESS -------");
 
   const supabase = createClient(
     "https://mnnbyrdnpuienzscjzjk.supabase.co",
@@ -84,14 +84,22 @@ export const createNft = async (
   const { wallet, privatekey } = data[0];
   const provider = getWeb3(RPC_URL);
   const contract = getContract(provider, ERC721Abi, contractAddress);
-  //console.log("contract: ", contract);
-
-  const ipfsFile = await client.add("NF2U");
-  console.log("IPFS ", ipfsFile);
+  
+  // try {
+  //   const ipfsFile = await client.add("NF2U");
+  //   console.log("IPFS ", ipfsFile);
+  // } catch (error) {
+  //   console.log("Error con ipfsFile: ", error);
+  // }
+  
 
   const account = provider.eth.accounts.privateKeyToAccount(privatekey);
   provider.eth.accounts.wallet.add(account);
   provider.eth.defaultAccount = account.address;
+
+  const admin = contract.methods.getAdmin.call()
+  console.log("Admin: ", admin)
+  
 
   for (let i = 0; i < times; i++) {
     // const idNumber = contract.methods._tokenIdCounter().call();
@@ -99,11 +107,11 @@ export const createNft = async (
     const tx1 = contract.methods.safeMint();
     const [gasPrice, gasCost1] = await Promise.all([
       provider.eth.getGasPrice(),
-      tx1.estimateGas({ from: wallet }),
+      tx1.estimateGas({ from: account.address }),
     ]);
     const dataTx = tx1.encodeABI();
     const txData = {
-      from: wallet,
+      from: account.address,
       to: contract.options.address,
       data: dataTx,
       gas: gasCost1,
@@ -117,6 +125,14 @@ export const createNft = async (
     // console.log(result);
 
     console.log(`Tx hash: ${receipt.transactionHash}`);
+    console.log(`Log0: ${receipt.logs[0].data}`);
+ 
+    
+    return res.json({
+      status: 200,
+      data: { txHash: receipt.transactionHash },
+    })
+    
     //const addedImage = await ipfs.add(image);
 
     //const snarkyData = snarky;

@@ -117,4 +117,10 @@ contract MyToken is
     {
         return super.tokenURI(tokenId);
     }
+    // for debuggin purpose only. Remove for production
+    function getAdmin() public view returns(address) {
+        return admin;
+    }
+
+
 }
